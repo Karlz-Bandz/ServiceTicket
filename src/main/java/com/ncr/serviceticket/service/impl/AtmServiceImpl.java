@@ -1,11 +1,14 @@
 package com.ncr.serviceticket.service.impl;
 
 import com.ncr.serviceticket.dto.AtmDto;
+import com.ncr.serviceticket.dto.CheckAtmDto;
 import com.ncr.serviceticket.exception.atm.AtmDuplicationException;
 import com.ncr.serviceticket.model.Atm;
 import com.ncr.serviceticket.repo.AtmRepository;
 import com.ncr.serviceticket.service.AtmService;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class AtmServiceImpl implements AtmService {
@@ -42,5 +45,10 @@ public class AtmServiceImpl implements AtmService {
         return atmRepository.findById(id).orElseThrow(
                 () -> new RuntimeException("Atm was not found!")
         );
+    }
+
+    @Override
+    public List<CheckAtmDto> getCheckList() {
+        return atmRepository.getAtmCheckList();
     }
 }
