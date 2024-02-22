@@ -1,11 +1,10 @@
 package com.ncr.serviceticket.service;
 
-import com.ncr.serviceticket.dto.AtmDto;
 import com.ncr.serviceticket.model.Atm;
 
 public interface AtmService {
 
-    void addNewAtm(AtmDto atmDto);
+    void addNewAtm(Atm atmDto);
 
     Atm findAtmById(long id);
 }

@@ -1,7 +1,7 @@
 package com.ncr.serviceticket.controller;
 
-import com.ncr.serviceticket.dto.AtmDto;
 import com.ncr.serviceticket.model.Atm;
+import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
 public interface AtmController {
 
     @PostMapping("/add")
-    ResponseEntity<Void> addNewAtm(@RequestBody AtmDto atmDto);
+    ResponseEntity<Void> addNewAtm(@RequestBody @Valid Atm atm);
 
     @GetMapping("/find/{id}")
     ResponseEntity<Atm> findAtmById(@PathVariable("id") long id);
