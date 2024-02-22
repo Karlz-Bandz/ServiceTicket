@@ -12,7 +12,7 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(AtmDuplicationException.class)
     public ResponseEntity<AtmErrorResponse> handleGitUnauthorizedException(AtmDuplicationException ex) {
-        HttpStatus httpStatus = HttpStatus.UNAUTHORIZED;
+        HttpStatus httpStatus = HttpStatus.CONFLICT;
         AtmErrorResponse gitErrorResponse = AtmErrorResponse.builder()
                 .status(httpStatus.value())
                 .message(ex.getMessage())

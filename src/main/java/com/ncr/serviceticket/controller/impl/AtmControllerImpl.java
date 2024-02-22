@@ -1,6 +1,7 @@
 package com.ncr.serviceticket.controller.impl;
 
 import com.ncr.serviceticket.controller.AtmController;
+import com.ncr.serviceticket.dto.AtmDto;
 import com.ncr.serviceticket.model.Atm;
 import com.ncr.serviceticket.service.AtmService;
 import org.springframework.http.ResponseEntity;
@@ -16,9 +17,9 @@ public class AtmControllerImpl implements AtmController {
     }
 
     @Override
-    public ResponseEntity<Void> addNewAtm(Atm atm) {
+    public ResponseEntity<Void> addNewAtm(AtmDto atmDto) {
 
-        atmService.addNewAtm(atm);
+        atmService.addNewAtm(atmDto);
 
         return ResponseEntity.ok().build();
     }

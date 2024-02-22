@@ -6,4 +6,8 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface AtmRepository extends JpaRepository<Atm, Long> {
+
+    boolean existsByAtmId(String atmId);
+
+    boolean existsBySerialNo(String serialNo);
 }

@@ -1,10 +1,10 @@
 package com.ncr.serviceticket.service.impl;
 
+import com.ncr.serviceticket.dto.AtmDto;
 import com.ncr.serviceticket.exception.atm.AtmDuplicationException;
 import com.ncr.serviceticket.model.Atm;
 import com.ncr.serviceticket.repo.AtmRepository;
 import com.ncr.serviceticket.service.AtmService;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -17,11 +17,23 @@ public class AtmServiceImpl implements AtmService {
     }
 
     @Override
-    public void addNewAtm(Atm atm) {
-        try {
+    public void addNewAtm(AtmDto atmDto) {
+
+        Atm atm = Atm.builder()
+                .atmId(atmDto.getAtmId())
+                .clientName(atmDto.getClientName())
+                .serialNo(atmDto.getSerialNo())
+                .type(atmDto.getType())
+                .phone(atmDto.getPhone())
+                .location(atmDto.getLocation())
+                .build();
+
+        if (atmRepository.existsByAtmId(atmDto.getAtmId())) {
+            throw new AtmDuplicationException("AtmId already exists!");
+        } else if (atmRepository.existsBySerialNo(atmDto.getSerialNo())) {
+            throw new AtmDuplicationException("Serial No. already exists!");
+        } else {
             atmRepository.save(atm);
-        } catch (DataIntegrityViolationException err) {
-            throw new AtmDuplicationException(err.getMessage());
         }
     }
 
