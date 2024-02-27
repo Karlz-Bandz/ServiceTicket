@@ -5,6 +5,7 @@ import com.ncr.serviceticket.dto.AtmDto;
 import com.ncr.serviceticket.dto.CheckAtmDto;
 import com.ncr.serviceticket.model.Atm;
 import com.ncr.serviceticket.service.AtmService;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -21,10 +22,8 @@ public class AtmControllerImpl implements AtmController {
 
     @Override
     public ResponseEntity<Void> addNewAtm(AtmDto atmDto) {
-
         atmService.addNewAtm(atmDto);
-
-        return ResponseEntity.ok().build();
+        return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
     @Override

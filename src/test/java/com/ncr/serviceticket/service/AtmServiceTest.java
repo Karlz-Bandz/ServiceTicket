@@ -29,7 +29,7 @@ class AtmServiceTest {
     private AtmServiceImpl atmService;
 
     @Test
-    void addNewAtmTest_SERIALNO_ALREADY_EXISTS(){
+    void addNewAtmTest_SERIALNO_ALREADY_EXISTS() {
         AtmDto atmDto = AtmDto.builder()
                 .atmId("BPSA2211")
                 .clientName("BankBankBank")
@@ -47,7 +47,7 @@ class AtmServiceTest {
     }
 
     @Test
-    void addNewAtmTest_ATMID_ALREADY_EXISTS(){
+    void addNewAtmTest_ATMID_ALREADY_EXISTS() {
         AtmDto atmDto = AtmDto.builder()
                 .atmId("BPSA2211")
                 .clientName("BankBankBank")
@@ -65,7 +65,7 @@ class AtmServiceTest {
     }
 
     @Test
-    void addNewAtmTest_SUCCESS(){
+    void addNewAtmTest_SUCCESS() {
         Atm atm = Atm.builder()
                 .atmId("BPSA2211")
                 .clientName("BankBankBank")
@@ -92,7 +92,7 @@ class AtmServiceTest {
     }
 
     @Test
-    void getCheckListTest(){
+    void getCheckListTest() {
         CheckAtmDto checkAtmDto1 = CheckAtmDto.builder()
                 .id(1)
                 .atmId("BBAA2211")
@@ -111,18 +111,18 @@ class AtmServiceTest {
     }
 
     @Test
-    void findAtmByIdTest_Not_FOUND(){
+    void findAtmByIdTest_Not_FOUND() {
         RuntimeException mockException = mock(RuntimeException.class);
 
         when(atmRepository.findById(1L)).thenReturn(Optional.empty());
 
         assertThrows(RuntimeException.class, () -> {
-           atmService.findAtmById(1L);
+            atmService.findAtmById(1L);
         });
     }
 
     @Test
-    void findAtmByIdTest(){
+    void findAtmByIdTest() {
         Atm mockAtm = Atm.builder()
                 .atmId("BPSA2233")
                 .type("Type")
