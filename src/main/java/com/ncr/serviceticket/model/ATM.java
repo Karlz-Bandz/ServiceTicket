@@ -1,28 +1,54 @@
 package com.ncr.serviceticket.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
-import java.util.Date;
+import static jakarta.persistence.GenerationType.IDENTITY;
 
 @Entity
 @Table(name = "atms")
-public class ATM {
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+@Data
+public class Atm {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = IDENTITY)
     private long id;
-    @Column(name = "atm_id", nullable = false, length = 10)
+
+    @Column(name = "atm_id")
+    @NotBlank
+    @Size(min = 8, max = 10)
     private String atmId;
-    @Column(name = "serial_no", nullable = false, length = 20)
+
+    @Column(name = "serial_no")
+    @NotBlank
+    @Size(min = 8, max = 20)
     private String serialNo;
-    @Column(name = "type", nullable = false, length = 20)
+
+    @Column(name = "client_name")
+    @NotBlank
+    @Size(max = 20)
+    private String clientName;
+
+    @Column(name = "type")
+    @NotBlank
+    @Size(max = 20)
     private String type;
-    @Column(name = "location", nullable = false, length = 50)
+
+    @Column(name = "location")
+    @NotBlank
+    @Size(max = 50)
     private String location;
-    @Column(name = "phone", nullable = false, length = 20)
-    private int phone;
-    @Column(name = "date", nullable = false)
-    private Date currentDate;
-    @Column(name = "description", nullable = false, length = 1500)
-    private String description;
+
+    @Column(name = "phone")
+    @NotBlank
+    @Size(max = 20)
+    private String phone;
 }
