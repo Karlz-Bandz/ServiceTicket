@@ -112,8 +112,6 @@ class AtmServiceTest {
 
     @Test
     void findAtmByIdTest_Not_FOUND() {
-        RuntimeException mockException = mock(RuntimeException.class);
-
         when(atmRepository.findById(1L)).thenReturn(Optional.empty());
 
         assertThrows(RuntimeException.class, () -> {
