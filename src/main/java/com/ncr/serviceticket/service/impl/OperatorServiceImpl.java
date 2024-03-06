@@ -7,6 +7,7 @@ import com.ncr.serviceticket.repo.OperatorRepository;
 import com.ncr.serviceticket.service.OperatorService;
 import org.springframework.stereotype.Service;
 
+import java.util.Comparator;
 import java.util.List;
 
 @Service
@@ -20,7 +21,10 @@ public class OperatorServiceImpl implements OperatorService {
 
     @Override
     public List<CheckOperatorDto> getCheckList() {
-        return operatorRepository.getOperatorCheckList();
+        return operatorRepository.getOperatorCheckList()
+                .stream()
+                .sorted(Comparator.comparing(CheckOperatorDto::getName))
+                .toList();
     }
 
     @Override
