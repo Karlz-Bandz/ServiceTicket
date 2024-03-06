@@ -99,7 +99,6 @@ public class PdfGenerationServiceImpl implements PdfGenerationService {
             addRow(table3, "Kontakt telefoniczny w miejscu awarii:", atm.getPhone());
             addRow(table3, "Data i godzina wystąpienia awarii:", "2022-12-23");
 
-
             document.add(paragraphTitle);
             document.add(paragraphSubTitle1);
             document.add(table1);
