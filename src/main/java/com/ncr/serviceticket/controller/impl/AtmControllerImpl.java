@@ -21,6 +21,12 @@ public class AtmControllerImpl implements AtmController {
     }
 
     @Override
+    public ResponseEntity<Void> deleteAtmById(long id) {
+        atmService.deleteAtmById(id);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+
+    @Override
     public ResponseEntity<Void> addNewAtm(AtmDto atmDto) {
         atmService.addNewAtm(atmDto);
         return new ResponseEntity<>(HttpStatus.CREATED);

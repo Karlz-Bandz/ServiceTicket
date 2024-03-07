@@ -12,6 +12,9 @@ import java.util.List;
 @RequestMapping("/atm")
 public interface AtmController {
 
+    @DeleteMapping("/delete/{id}")
+    ResponseEntity<Void> deleteAtmById(@PathVariable("id") long id);
+
     @PostMapping("/add")
     ResponseEntity<Void> addNewAtm(@RequestBody @Valid AtmDto atmDto);
 
