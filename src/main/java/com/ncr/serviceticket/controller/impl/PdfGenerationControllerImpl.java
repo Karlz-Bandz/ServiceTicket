@@ -1,6 +1,5 @@
 package com.ncr.serviceticket.controller.impl;
 
-
 import com.itextpdf.text.DocumentException;
 import com.ncr.serviceticket.dto.MasterTicketDto;
 import com.ncr.serviceticket.service.PdfGenerationService;
