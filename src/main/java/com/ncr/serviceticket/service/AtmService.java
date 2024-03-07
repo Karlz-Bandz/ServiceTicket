@@ -8,6 +8,8 @@ import java.util.List;
 
 public interface AtmService {
 
+    void deleteAtmById(long id);
+
     void addNewAtm(AtmDto atmDto);
 
     Atm findAtmById(long id);
