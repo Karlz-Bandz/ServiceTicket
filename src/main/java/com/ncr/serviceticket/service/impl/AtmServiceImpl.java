@@ -8,6 +8,7 @@ import com.ncr.serviceticket.repo.AtmRepository;
 import com.ncr.serviceticket.service.AtmService;
 import org.springframework.stereotype.Service;
 
+import java.util.Comparator;
 import java.util.List;
 
 @Service
@@ -49,6 +50,9 @@ public class AtmServiceImpl implements AtmService {
 
     @Override
     public List<CheckAtmDto> getCheckList() {
-        return atmRepository.getAtmCheckList();
+        return atmRepository.getAtmCheckList()
+                .stream()
+                .sorted(Comparator.comparing(CheckAtmDto::getAtmId))
+                .toList();
     }
 }
