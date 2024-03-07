@@ -8,6 +8,8 @@ import java.util.List;
 
 public interface OperatorService {
 
+    void deleteOperatorById(long id);
+
     List<CheckOperatorDto> getCheckList();
 
     Operator findById(long id);
