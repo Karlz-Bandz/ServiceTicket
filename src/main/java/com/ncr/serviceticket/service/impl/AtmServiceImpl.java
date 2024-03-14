@@ -23,6 +23,11 @@ public class AtmServiceImpl implements AtmService {
     }
 
     @Override
+    public boolean existsBySerialNo(String serialNo) {
+        return atmRepository.existsBySerialNo(serialNo);
+    }
+
+    @Override
     public boolean existsByAtmId(String atmId) {
         return atmRepository.existsByAtmId(atmId);
     }
