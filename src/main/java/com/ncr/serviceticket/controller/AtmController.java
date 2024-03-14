@@ -12,6 +12,9 @@ import java.util.List;
 @RequestMapping("/atm")
 public interface AtmController {
 
+    @GetMapping("/exists/{atmId}")
+    ResponseEntity<Boolean> existsByAtmId(@PathVariable("atmId") String atmId);
+
     @DeleteMapping("/delete/{id}")
     ResponseEntity<Void> deleteAtmById(@PathVariable("id") long id);
 

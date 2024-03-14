@@ -23,6 +23,11 @@ public class AtmServiceImpl implements AtmService {
     }
 
     @Override
+    public boolean existsByAtmId(String atmId) {
+        return atmRepository.existsByAtmId(atmId);
+    }
+
+    @Override
     @Transactional
     public void deleteAtmById(long id) {
         if(atmRepository.existsById(id)){

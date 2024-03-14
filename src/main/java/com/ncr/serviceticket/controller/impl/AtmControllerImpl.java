@@ -21,6 +21,11 @@ public class AtmControllerImpl implements AtmController {
     }
 
     @Override
+    public ResponseEntity<Boolean> existsByAtmId(String atmId) {
+        return ResponseEntity.ok(atmService.existsByAtmId(atmId));
+    }
+
+    @Override
     public ResponseEntity<Void> deleteAtmById(long id) {
         atmService.deleteAtmById(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);

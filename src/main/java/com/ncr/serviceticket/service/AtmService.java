@@ -8,6 +8,8 @@ import java.util.List;
 
 public interface AtmService {
 
+    boolean existsByAtmId(String atmId);
+
     void deleteAtmById(long id);
 
     void addNewAtm(AtmDto atmDto);
