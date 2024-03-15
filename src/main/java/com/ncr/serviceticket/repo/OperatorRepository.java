@@ -11,6 +11,8 @@ import java.util.List;
 @Repository
 public interface OperatorRepository extends JpaRepository<Operator, Long> {
 
+    boolean existsByName(String name);
+
     @Query("SELECT new com.ncr.serviceticket.dto.CheckOperatorDto(a.id, a.name) FROM Operator a")
     List<CheckOperatorDto> getOperatorCheckList();
 }

@@ -35,9 +35,9 @@ public class AtmServiceImpl implements AtmService {
     @Override
     @Transactional
     public void deleteAtmById(long id) {
-        if(atmRepository.existsById(id)){
+        if (atmRepository.existsById(id)) {
             atmRepository.deleteById(id);
-        }else{
+        } else {
             throw new AtmNotFoundException("Atm does not found!");
         }
     }
@@ -46,20 +46,20 @@ public class AtmServiceImpl implements AtmService {
     @Transactional
     public void addNewAtm(AtmDto atmDto) {
 
-        Atm atm = Atm.builder()
-                .atmId(atmDto.getAtmId())
-                .clientName(atmDto.getClientName())
-                .serialNo(atmDto.getSerialNo())
-                .type(atmDto.getType())
-                .phone(atmDto.getPhone())
-                .location(atmDto.getLocation())
-                .build();
-
         if (atmRepository.existsByAtmId(atmDto.getAtmId())) {
             throw new AtmDuplicationException("AtmId already exists!");
         } else if (atmRepository.existsBySerialNo(atmDto.getSerialNo())) {
             throw new AtmDuplicationException("Serial No. already exists!");
         } else {
+            Atm atm = Atm.builder()
+                    .atmId(atmDto.getAtmId())
+                    .clientName(atmDto.getClientName())
+                    .serialNo(atmDto.getSerialNo())
+                    .type(atmDto.getType())
+                    .phone(atmDto.getPhone())
+                    .location(atmDto.getLocation())
+                    .build();
+
             atmRepository.save(atm);
         }
     }

@@ -37,7 +37,7 @@ class AtmControllerTest {
                 .atmId("BPSA2211")
                 .clientName("BankBankBank")
                 .serialNo("13-333444333")
-                .type("Banokmat")
+                .type("BANKOMAT")
                 .phone("333444333")
                 .location("Test Street 2343")
                 .build();
@@ -45,7 +45,7 @@ class AtmControllerTest {
                 .atmId("BPSA2291")
                 .clientName("BankBankBank")
                 .serialNo("13-373444333")
-                .type("Banokmat")
+                .type("BANKOMAT")
                 .phone("333444333")
                 .location("Test Street 2343")
                 .build();
@@ -76,7 +76,7 @@ class AtmControllerTest {
                 .atmId("BPSA2811")
                 .clientName("BankBankBank")
                 .serialNo("73-333444333")
-                .type("Banokmat")
+                .type("BANKOMAT")
                 .phone("333444333")
                 .location("Test Street 2343")
                 .build();

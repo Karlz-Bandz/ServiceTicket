@@ -12,6 +12,9 @@ import java.util.List;
 @RequestMapping("/operator")
 public interface OperatorController {
 
+    @GetMapping("/exists/{name}")
+    ResponseEntity<Boolean> existsByName(@PathVariable("name") String name);
+
     @DeleteMapping("/delete/{id}")
     ResponseEntity<Void> deleteOperatorById(@PathVariable("id") long id);
 
