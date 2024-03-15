@@ -2,6 +2,7 @@ package com.ncr.serviceticket.service;
 
 import com.ncr.serviceticket.dto.CheckOperatorDto;
 import com.ncr.serviceticket.dto.OperatorDto;
+import com.ncr.serviceticket.exception.atm.AtmNotFoundException;
 import com.ncr.serviceticket.model.Operator;
 import com.ncr.serviceticket.repo.OperatorRepository;
 import com.ncr.serviceticket.service.impl.OperatorServiceImpl;
@@ -27,6 +28,24 @@ class OperatorServiceTest {
 
     @InjectMocks
     private OperatorServiceImpl operatorService;
+
+    @Test
+    void deleteOperatorByIdTest_OPERATOR_NOT_FOUND() {
+        when(operatorRepository.existsById(1L)).thenReturn(false);
+
+        assertThrows(AtmNotFoundException.class, () -> {
+            operatorService.deleteOperatorById(1L);
+        });
+    }
+
+    @Test
+    void deleteOperatorByIdTest_SUCCESS() {
+        when(operatorRepository.existsById(1L)).thenReturn(true);
+
+        operatorService.deleteOperatorById(1L);
+
+        verify(operatorRepository).deleteById(1L);
+    }
 
     @Test
     void addNewAtmTest_SUCCESS() {

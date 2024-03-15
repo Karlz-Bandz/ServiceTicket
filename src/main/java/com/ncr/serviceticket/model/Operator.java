@@ -1,5 +1,6 @@
 package com.ncr.serviceticket.model;
 
+import com.ncr.serviceticket.validation.annotations.ContactNumberConstraint;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
@@ -35,5 +36,6 @@ public class Operator {
     @Column(name = "phone")
     @NotBlank
     @Size(max = 50)
+    @ContactNumberConstraint
     private String phone;
 }

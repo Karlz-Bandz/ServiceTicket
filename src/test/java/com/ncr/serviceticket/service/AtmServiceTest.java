@@ -3,6 +3,7 @@ package com.ncr.serviceticket.service;
 import com.ncr.serviceticket.dto.AtmDto;
 import com.ncr.serviceticket.dto.CheckAtmDto;
 import com.ncr.serviceticket.exception.atm.AtmDuplicationException;
+import com.ncr.serviceticket.exception.atm.AtmNotFoundException;
 import com.ncr.serviceticket.model.Atm;
 import com.ncr.serviceticket.repo.AtmRepository;
 import com.ncr.serviceticket.service.impl.AtmServiceImpl;
@@ -27,6 +28,24 @@ class AtmServiceTest {
 
     @InjectMocks
     private AtmServiceImpl atmService;
+
+    @Test
+    void deleteAtmByIdTest_ATM_NOT_FOUND(){
+        when(atmRepository.existsById(1L)).thenReturn(false);
+
+        assertThrows(AtmNotFoundException.class, () -> {
+            atmService.deleteAtmById(1L);
+        });
+    }
+
+    @Test
+    void deleteAtmByIdTest_SUCCESS(){
+        when(atmRepository.existsById(1L)).thenReturn(true);
+
+        atmService.deleteAtmById(1L);
+
+        verify(atmRepository).deleteById(1L);
+    }
 
     @Test
     void addNewAtmTest_SERIALNO_ALREADY_EXISTS() {

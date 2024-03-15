@@ -21,6 +21,17 @@ public class OperatorControllerImpl implements OperatorController {
     }
 
     @Override
+    public ResponseEntity<Boolean> existsByName(String name) {
+        return ResponseEntity.ok(operatorService.operatorExistsByName(name));
+    }
+
+    @Override
+    public ResponseEntity<Void> deleteOperatorById(long id) {
+        operatorService.deleteOperatorById(id);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+
+    @Override
     public ResponseEntity<Void> addOperator(OperatorDto operatorDto) {
         operatorService.addNewOperator(operatorDto);
         return new ResponseEntity<>(HttpStatus.CREATED);

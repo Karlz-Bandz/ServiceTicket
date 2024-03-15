@@ -1,5 +1,6 @@
 package com.ncr.serviceticket.dto;
 
+import com.ncr.serviceticket.validation.annotations.ContactNumberConstraint;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import lombok.Builder;
@@ -21,5 +22,6 @@ public class OperatorDto {
 
     @NotBlank
     @Size(max = 50)
+    @ContactNumberConstraint
     private String phone;
 }

@@ -53,7 +53,7 @@ class AtmRepositoryTest {
     static void setData(@Autowired AtmRepository atmRepository) {
         Atm atm1 = Atm.builder()
                 .atmId("BPSA2233")
-                .type("Type")
+                .type("BANKOMAT")
                 .phone("5555555")
                 .serialNo("13-3444333")
                 .clientName("Bank w Warszawie")
@@ -61,7 +61,7 @@ class AtmRepositoryTest {
                 .build();
         Atm atm2 = Atm.builder()
                 .atmId("BPSA2211")
-                .type("Type2")
+                .type("BANKOMAT")
                 .phone("55553555")
                 .serialNo("76-334433322")
                 .clientName("Bank w Łodzi")

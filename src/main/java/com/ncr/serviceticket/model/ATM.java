@@ -1,5 +1,7 @@
 package com.ncr.serviceticket.model;
 
+import com.ncr.serviceticket.validation.annotations.ContactNumberConstraint;
+import com.ncr.serviceticket.validation.annotations.UpperCaseConstraint;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
@@ -25,6 +27,7 @@ public class Atm {
     @Column(name = "atm_id")
     @NotBlank
     @Size(min = 8, max = 10)
+    @UpperCaseConstraint
     private String atmId;
 
     @Column(name = "serial_no")
@@ -34,12 +37,13 @@ public class Atm {
 
     @Column(name = "client_name")
     @NotBlank
-    @Size(max = 20)
+    @Size(max = 120)
     private String clientName;
 
     @Column(name = "type")
     @NotBlank
     @Size(max = 20)
+    @UpperCaseConstraint
     private String type;
 
     @Column(name = "location")
@@ -50,5 +54,6 @@ public class Atm {
     @Column(name = "phone")
     @NotBlank
     @Size(max = 20)
+    @ContactNumberConstraint
     private String phone;
 }
