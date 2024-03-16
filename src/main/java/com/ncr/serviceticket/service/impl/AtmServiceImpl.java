@@ -23,6 +23,16 @@ public class AtmServiceImpl implements AtmService {
     }
 
     @Override
+    @Transactional
+    public Atm findByAtmId(String atmId) {
+        if(atmRepository.existsByAtmId(atmId)){
+            return atmRepository.findByAtmId(atmId);
+        }else {
+            throw new AtmNotFoundException("Atm doesn't exist!");
+        }
+    }
+
+    @Override
     public boolean existsBySerialNo(String serialNo) {
         return atmRepository.existsBySerialNo(serialNo);
     }

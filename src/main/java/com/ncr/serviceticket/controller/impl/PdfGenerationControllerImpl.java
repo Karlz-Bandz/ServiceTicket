@@ -20,8 +20,7 @@ public class PdfGenerationControllerImpl implements PdfGenerationController {
     }
 
     @Override
-    public ResponseEntity<Void> export(MasterTicketDto masterTicketDto) throws DocumentException, IOException {
-        pdfGenerationService.generatePdf(masterTicketDto);
-        return new ResponseEntity<>(HttpStatus.CREATED);
+    public ResponseEntity<byte[]> export(MasterTicketDto masterTicketDto) throws DocumentException, IOException {
+        return new ResponseEntity<>(pdfGenerationService.generatePdf(masterTicketDto), HttpStatus.CREATED);
     }
 }

@@ -21,6 +21,7 @@ import java.io.OutputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.File;
+import java.nio.file.Files;
 
 @Service
 public class PdfGenerationServiceImpl implements PdfGenerationService {
@@ -35,7 +36,7 @@ public class PdfGenerationServiceImpl implements PdfGenerationService {
     }
 
     @Override
-    public void generatePdf(MasterTicketDto masterTicketDto) throws IOException, DocumentException {
+    public byte[] generatePdf(MasterTicketDto masterTicketDto) throws IOException, DocumentException {
 
         Atm atm = atmService.findAtmById(masterTicketDto.getAtmId());
         Operator operator = operatorService.findById(masterTicketDto.getOperatorId());
@@ -115,6 +116,8 @@ public class PdfGenerationServiceImpl implements PdfGenerationService {
         } catch (IOException e) {
             throw new IOException(e);
         }
+
+        return Files.readAllBytes(file.toPath());
     }
 
     private void addRow(PdfPTable table, String key, String value) {

@@ -11,6 +11,8 @@ import java.util.List;
 @Repository
 public interface AtmRepository extends JpaRepository<Atm, Long> {
 
+    Atm findByAtmId(String atmId);
+
     boolean existsByAtmId(String atmId);
 
     boolean existsBySerialNo(String serialNo);

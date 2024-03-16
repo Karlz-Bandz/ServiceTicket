@@ -13,5 +13,5 @@ import java.io.IOException;
 public interface PdfGenerationController {
 
     @PostMapping("/export")
-    ResponseEntity<Void> export(@RequestBody MasterTicketDto masterTicketDto) throws DocumentException, IOException;
+    ResponseEntity<byte[]> export(@RequestBody MasterTicketDto masterTicketDto) throws DocumentException, IOException;
 }

@@ -7,5 +7,5 @@ import java.io.IOException;
 
 public interface PdfGenerationService {
 
-    void generatePdf(MasterTicketDto masterTicketDto) throws IOException, DocumentException;
+    byte[] generatePdf(MasterTicketDto masterTicketDto) throws IOException, DocumentException;
 }
