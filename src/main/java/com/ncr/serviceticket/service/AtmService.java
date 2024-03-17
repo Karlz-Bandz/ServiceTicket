@@ -8,6 +8,8 @@ import java.util.List;
 
 public interface AtmService {
 
+    Atm findBySerialNo(String serialNo);
+
     Atm findByAtmId(String atmId);
 
     boolean existsBySerialNo(String serialNo);

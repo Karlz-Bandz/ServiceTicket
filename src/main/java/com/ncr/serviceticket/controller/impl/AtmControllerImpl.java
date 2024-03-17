@@ -21,6 +21,11 @@ public class AtmControllerImpl implements AtmController {
     }
 
     @Override
+    public ResponseEntity<Atm> findBySerialNo(String serialNo) {
+        return ResponseEntity.ok(atmService.findBySerialNo(serialNo));
+    }
+
+    @Override
     public ResponseEntity<Atm> findByAtmId(String atmId) {
         return ResponseEntity.ok(atmService.findByAtmId(atmId));
     }

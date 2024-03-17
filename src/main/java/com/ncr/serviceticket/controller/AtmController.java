@@ -12,6 +12,9 @@ import java.util.List;
 @RequestMapping("/atm")
 public interface AtmController {
 
+    @GetMapping("/find/serial/{serialNo}")
+    ResponseEntity<Atm> findBySerialNo(@PathVariable("serialNo") String serialNo);
+
     @GetMapping("/find/name/{atmId}")
     ResponseEntity<Atm> findByAtmId(@PathVariable("atmId") String atmId);
 
