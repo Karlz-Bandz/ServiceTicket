@@ -87,7 +87,7 @@ public class AtmServiceImpl implements AtmService {
     @Override
     public Atm findAtmById(long id) {
         return atmRepository.findById(id).orElseThrow(
-                () -> new RuntimeException("Atm was not found!")
+                () -> new AtmNotFoundException("Atm does not found!")
         );
     }
 

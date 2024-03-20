@@ -3,6 +3,7 @@ package com.ncr.serviceticket.model;
 import com.ncr.serviceticket.validation.annotations.ContactNumberConstraint;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -25,16 +26,19 @@ public class Operator {
 
     @Column(name = "name")
     @NotBlank
+    @NotNull
     @Size(max = 50)
     private String name;
 
     @Column(name = "role")
     @NotBlank
+    @NotNull
     @Size(max = 50)
     private String role;
 
     @Column(name = "phone")
     @NotBlank
+    @NotNull
     @Size(max = 50)
     @ContactNumberConstraint
     private String phone;
