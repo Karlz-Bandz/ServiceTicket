@@ -5,6 +5,7 @@ import com.ncr.serviceticket.dto.CheckOperatorDto;
 import com.ncr.serviceticket.dto.OperatorDto;
 import com.ncr.serviceticket.model.Operator;
 import com.ncr.serviceticket.service.OperatorService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
@@ -12,12 +13,19 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
+@RequiredArgsConstructor
 public class OperatorControllerImpl implements OperatorController {
 
     private final OperatorService operatorService;
 
-    public OperatorControllerImpl(OperatorService operatorService) {
-        this.operatorService = operatorService;
+    @Override
+    public ResponseEntity<String> registerUser(OperatorDto operatorDto) {
+        return new ResponseEntity<>(operatorService.registerOperator(operatorDto), HttpStatus.CREATED);
+    }
+
+    @Override
+    public ResponseEntity<String> registerAdmin(OperatorDto operatorDto) {
+        return new ResponseEntity<>(operatorService.registerAdmin(operatorDto), HttpStatus.CREATED);
     }
 
     @Override
@@ -31,11 +39,11 @@ public class OperatorControllerImpl implements OperatorController {
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
-    @Override
-    public ResponseEntity<Void> addOperator(OperatorDto operatorDto) {
-        operatorService.addNewOperator(operatorDto);
-        return new ResponseEntity<>(HttpStatus.CREATED);
-    }
+//    @Override
+//    public ResponseEntity<Void> addOperator(OperatorDto operatorDto) {
+//        operatorService.addNewOperator(operatorDto);
+//        return new ResponseEntity<>(HttpStatus.CREATED);
+//    }
 
     @Override
     public ResponseEntity<Operator> findOperatorById(long id) {

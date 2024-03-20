@@ -4,7 +4,6 @@ import com.ncr.serviceticket.exception.security.WrongJwtTokenException;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
-import org.slf4j.Logger;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 

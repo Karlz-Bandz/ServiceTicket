@@ -1,6 +1,9 @@
 package com.ncr.serviceticket.configuration.security;
 
-import com.ncr.serviceticket.model.WmcUser;
+import com.ncr.serviceticket.model.Operator;
+import com.ncr.serviceticket.model.Role;
+import com.ncr.serviceticket.repo.OperatorRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -8,39 +11,21 @@ import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.password.NoOpPasswordEncoder;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-import java.util.Arrays;
-import java.util.Collections;
+import java.util.Collection;
 import java.util.List;
 
 @Configuration
+@RequiredArgsConstructor
 public class AuthBean {
 
-    private static final List<WmcUser> users = Arrays.asList(
-            WmcUser.builder()
-                    .userName("Karol")
-                    .password("pass")
-                    .isEnabled(true)
-                    .isAccountNonExpired(true)
-                    .isAccountNonLocked(true)
-                    .isCredentialsNonExpired(true)
-                    .authorities(Collections.singleton(new SimpleGrantedAuthority("ADMIN")))
-                    .build(),
-            WmcUser.builder()
-                    .userName("Iza")
-                    .password("password")
-                    .isEnabled(true)
-                    .isAccountNonExpired(true)
-                    .isAccountNonLocked(true)
-                    .isCredentialsNonExpired(true)
-                    .authorities(Collections.singleton(new SimpleGrantedAuthority("USER")))
-                    .build()
-    );
+    private final OperatorRepository operatorRepository;
 
     @Bean
     public AuthenticationProvider authenticationProvider() {
@@ -58,19 +43,26 @@ public class AuthBean {
 
     @Bean
     public PasswordEncoder passwordEncoder() {
-        return NoOpPasswordEncoder.getInstance(); //TODO to be implemented
+        return new BCryptPasswordEncoder();
     }
 
     @Bean
     public UserDetailsService userDetailsService() {
         return new UserDetailsService() {
             @Override
-            public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-                return users.stream()
-                        .filter(data -> data.getUsername().equals(username))
-                        .findFirst()
-                        .orElseThrow(() -> new UsernameNotFoundException("User not found!"));
+            public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+
+                Operator operator = operatorRepository.findByEmail(email)
+                        .orElseThrow(() -> new UsernameNotFoundException("Email not found!"));
+
+                return new User(operator.getEmail(), operator.getPassword(), mapRolesToAuthority(operator.getRoles()));
             }
         };
+    }
+
+    private Collection<SimpleGrantedAuthority> mapRolesToAuthority(List<Role> roles) {
+        return roles.stream()
+                .map(x -> new SimpleGrantedAuthority(x.getRole()))
+                .toList();
     }
 }

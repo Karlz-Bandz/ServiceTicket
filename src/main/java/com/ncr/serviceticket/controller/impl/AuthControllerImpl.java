@@ -25,10 +25,10 @@ public class AuthControllerImpl implements AuthController {
     public ResponseEntity<String> authenticate(AuthenticationDto request) {
 
         authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(request.getUserName(), request.getPassword())
+                new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword())
         );
 
-        final UserDetails user = userDetailsService.loadUserByUsername(request.getUserName());
+        final UserDetails user = userDetailsService.loadUserByUsername(request.getEmail());
 
         if (user != null) {
             return ResponseEntity.ok(jwtUtils.generateToken(user));
