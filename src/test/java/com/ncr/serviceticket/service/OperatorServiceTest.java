@@ -4,14 +4,18 @@ import com.ncr.serviceticket.dto.CheckOperatorDto;
 import com.ncr.serviceticket.dto.OperatorDto;
 import com.ncr.serviceticket.exception.atm.AtmNotFoundException;
 import com.ncr.serviceticket.model.Operator;
+import com.ncr.serviceticket.model.Role;
 import com.ncr.serviceticket.repo.OperatorRepository;
+import com.ncr.serviceticket.repo.RoleRepository;
 import com.ncr.serviceticket.service.impl.OperatorServiceImpl;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -25,6 +29,12 @@ class OperatorServiceTest {
 
     @Mock
     private OperatorRepository operatorRepository;
+
+    @Mock
+    private RoleRepository roleRepository;
+
+    @Mock
+    private PasswordEncoder passwordEncoder;
 
     @InjectMocks
     private OperatorServiceImpl operatorService;
@@ -48,22 +58,35 @@ class OperatorServiceTest {
     }
 
     @Test
-    void addNewAtmTest_SUCCESS() {
+    void addNewOperatorTest_SUCCESS() {
+        Role role = Role.builder()
+                .role("ROLE_USER")
+                .build();
+
         Operator mockOperator = Operator.builder()
                 .name("Test")
                 .role("TestRole")
                 .phone("555666444")
+                .roles(Collections.singletonList(role))
+                .email("karol@ss.pl")
+                .password("xxxx")
                 .build();
 
         OperatorDto operatorDto = OperatorDto.builder()
                 .name("Test")
                 .role("TestRole")
                 .phone("555666444")
+                .password("pass")
+                .email("karol@ss.pl")
                 .build();
+
+        when(roleRepository.findByRole(role.getRole())).thenReturn(Optional.of(role));
+
+        when(passwordEncoder.encode(operatorDto.getPassword())).thenReturn("xxxx");
 
         when(operatorRepository.save(mockOperator)).thenReturn(mockOperator);
 
-        operatorService.addNewOperator(operatorDto);
+        operatorService.registerOperator(operatorDto);
 
         verify(operatorRepository).save(mockOperator);
     }

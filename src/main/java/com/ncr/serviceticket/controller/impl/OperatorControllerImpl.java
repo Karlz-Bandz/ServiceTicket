@@ -38,18 +38,10 @@ public class OperatorControllerImpl implements OperatorController {
         operatorService.deleteOperatorById(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
-
-//    @Override
-//    public ResponseEntity<Void> addOperator(OperatorDto operatorDto) {
-//        operatorService.addNewOperator(operatorDto);
-//        return new ResponseEntity<>(HttpStatus.CREATED);
-//    }
-
     @Override
     public ResponseEntity<Operator> findOperatorById(long id) {
         return ResponseEntity.ok(operatorService.findById(id));
     }
-
     @Override
     public ResponseEntity<List<CheckOperatorDto>> getOperatorCheckList() {
         return ResponseEntity.ok(operatorService.getCheckList());

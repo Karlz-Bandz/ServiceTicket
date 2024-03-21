@@ -30,7 +30,8 @@ public class OperatorServiceImpl implements OperatorService {
 
     @Override
     public String registerOperator(OperatorDto operatorDto) {
-        Role roles = roleRepository.findByRole("USER").orElseThrow(() -> new RuntimeException("USER role not found!"));
+        Role roles = roleRepository.findByRole("ROLE_USER")
+                .orElseThrow(() -> new RuntimeException("USER role not found!"));
 
         if (operatorRepository.existsByName(operatorDto.getName())) {
             throw new AtmDuplicationException("UserName already exists!");
@@ -53,7 +54,8 @@ public class OperatorServiceImpl implements OperatorService {
 
     @Override
     public String registerAdmin(OperatorDto operatorDto) {
-        Role roles = roleRepository.findByRole("ADMIN").orElseThrow(() -> new RuntimeException("ADMIN role not found!"));
+        Role roles = roleRepository.findByRole("ROLE_ADMIN")
+                .orElseThrow(() -> new RuntimeException("ADMIN role not found!"));
 
         if (operatorRepository.existsByName(operatorDto.getName())) {
             throw new AtmDuplicationException("UserName already exists!");
