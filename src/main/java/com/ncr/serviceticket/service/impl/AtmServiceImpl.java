@@ -8,19 +8,17 @@ import com.ncr.serviceticket.model.Atm;
 import com.ncr.serviceticket.repo.AtmRepository;
 import com.ncr.serviceticket.service.AtmService;
 import jakarta.transaction.Transactional;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.Comparator;
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class AtmServiceImpl implements AtmService {
 
     private final AtmRepository atmRepository;
-
-    public AtmServiceImpl(AtmRepository atmRepository) {
-        this.atmRepository = atmRepository;
-    }
 
     @Override
     @Transactional

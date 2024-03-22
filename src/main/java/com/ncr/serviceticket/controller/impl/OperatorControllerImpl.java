@@ -19,13 +19,15 @@ public class OperatorControllerImpl implements OperatorController {
     private final OperatorService operatorService;
 
     @Override
-    public ResponseEntity<String> registerUser(OperatorDto operatorDto) {
-        return new ResponseEntity<>(operatorService.registerOperator(operatorDto), HttpStatus.CREATED);
+    public ResponseEntity<Void> registerUser(OperatorDto operatorDto) {
+        operatorService.registerOperator(operatorDto);
+        return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
     @Override
-    public ResponseEntity<String> registerAdmin(OperatorDto operatorDto) {
-        return new ResponseEntity<>(operatorService.registerAdmin(operatorDto), HttpStatus.CREATED);
+    public ResponseEntity<Void> registerAdmin(OperatorDto operatorDto) {
+        operatorService.registerAdmin(operatorDto);
+        return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
     @Override
@@ -37,10 +39,6 @@ public class OperatorControllerImpl implements OperatorController {
     public ResponseEntity<Void> deleteOperatorById(long id) {
         operatorService.deleteOperatorById(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-    }
-    @Override
-    public ResponseEntity<Operator> findOperatorById(long id) {
-        return ResponseEntity.ok(operatorService.findById(id));
     }
     @Override
     public ResponseEntity<List<CheckOperatorDto>> getOperatorCheckList() {

@@ -13,19 +13,16 @@ import java.util.List;
 public interface OperatorController {
 
     @PostMapping("/register")
-    ResponseEntity<String> registerUser(@RequestBody @Valid OperatorDto operatorDto);
+    ResponseEntity<Void> registerUser(@RequestBody @Valid OperatorDto operatorDto);
 
     @PostMapping("/register/admin")
-    ResponseEntity<String> registerAdmin(@RequestBody @Valid OperatorDto operatorDto);
+    ResponseEntity<Void> registerAdmin(@RequestBody @Valid OperatorDto operatorDto);
 
     @GetMapping("/exists/{name}")
     ResponseEntity<Boolean> existsByName(@PathVariable("name") String name);
 
     @DeleteMapping("/delete/{id}")
     ResponseEntity<Void> deleteOperatorById(@PathVariable("id") long id);
-
-    @GetMapping("/find/{id}")
-    ResponseEntity<Operator> findOperatorById(@PathVariable("id") long id);
 
     @GetMapping("/checklist")
     ResponseEntity<List<CheckOperatorDto>> getOperatorCheckList();

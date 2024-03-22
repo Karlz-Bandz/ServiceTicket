@@ -3,6 +3,7 @@ package com.ncr.serviceticket.controller.impl;
 import com.ncr.serviceticket.configuration.security.jwt.JwtUtils;
 import com.ncr.serviceticket.controller.AuthController;
 import com.ncr.serviceticket.dto.AuthenticationDto;
+import com.ncr.serviceticket.dto.TokenDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -22,7 +23,7 @@ public class AuthControllerImpl implements AuthController {
     private final JwtUtils jwtUtils;
 
     @Override
-    public ResponseEntity<String> authenticate(AuthenticationDto request) {
+    public ResponseEntity<TokenDto> authenticate(AuthenticationDto request) {
 
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword())
@@ -31,9 +32,14 @@ public class AuthControllerImpl implements AuthController {
         final UserDetails user = userDetailsService.loadUserByUsername(request.getEmail());
 
         if (user != null) {
-            return ResponseEntity.ok(jwtUtils.generateToken(user));
+            TokenDto tokenDto = TokenDto.builder()
+                    .token(jwtUtils.generateToken(user))
+                    .build();
+            return ResponseEntity.ok(tokenDto);
         } else {
-            return ResponseEntity.status(400).body("Some error has occurred!");
+            return ResponseEntity.status(400).body(TokenDto.builder().token("").build());
         }
+
+
     }
 }

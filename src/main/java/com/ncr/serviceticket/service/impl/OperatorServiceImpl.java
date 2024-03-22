@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -29,7 +30,12 @@ public class OperatorServiceImpl implements OperatorService {
     private final PasswordEncoder passwordEncoder;
 
     @Override
-    public String registerOperator(OperatorDto operatorDto) {
+    public Optional<Operator> findByEmail(String email) {
+        return operatorRepository.findByEmail(email);
+    }
+
+    @Override
+    public void registerOperator(OperatorDto operatorDto) {
         Role roles = roleRepository.findByRole("ROLE_USER")
                 .orElseThrow(() -> new RuntimeException("USER role not found!"));
 
@@ -49,11 +55,10 @@ public class OperatorServiceImpl implements OperatorService {
 
             operatorRepository.save(operator);
         }
-        return "Operator added!";
     }
 
     @Override
-    public String registerAdmin(OperatorDto operatorDto) {
+    public void registerAdmin(OperatorDto operatorDto) {
         Role roles = roleRepository.findByRole("ROLE_ADMIN")
                 .orElseThrow(() -> new RuntimeException("ADMIN role not found!"));
 
@@ -73,7 +78,6 @@ public class OperatorServiceImpl implements OperatorService {
 
             operatorRepository.save(operator);
         }
-        return "Admin added!";
     }
 
     @Override
@@ -84,11 +88,10 @@ public class OperatorServiceImpl implements OperatorService {
     @Override
     @Transactional
     public void deleteOperatorById(long id) {
-        if (operatorRepository.existsById(id)) {
-            operatorRepository.deleteById(id);
-        } else {
-            throw new AtmNotFoundException("Operator is not found!");
-        }
+       Operator operator = operatorRepository.findById(id)
+               .orElseThrow(() -> new AtmNotFoundException("Operator not found!"));
+
+       operatorRepository.delete(operator);
     }
 
     @Override
@@ -97,12 +100,5 @@ public class OperatorServiceImpl implements OperatorService {
                 .stream()
                 .sorted(Comparator.comparing(CheckOperatorDto::getName))
                 .toList();
-    }
-
-    @Override
-    public Operator findById(long id) {
-        return operatorRepository.findById(id).orElseThrow(
-                () -> new RuntimeException("Operator was not found!")
-        );
     }
 }

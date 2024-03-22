@@ -90,15 +90,6 @@ class OperatorControllerTest {
 
     @Test
     @WithMockUser(username = "user", authorities = "ROLE_ADMIN")
-    void findByIdTest_SUCCESS() throws Exception {
-        mockMvc.perform(MockMvcRequestBuilders
-                        .get("/operator/find/1")
-                        .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(MockMvcResultMatchers.status().isOk());
-    }
-
-    @Test
-    @WithMockUser(username = "user", authorities = "ROLE_ADMIN")
     void getCheckList_SUCCESS() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders
                         .get("/operator/checklist")

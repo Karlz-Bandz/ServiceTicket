@@ -5,20 +5,19 @@ import com.ncr.serviceticket.dto.OperatorDto;
 import com.ncr.serviceticket.model.Operator;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface OperatorService {
 
-    String registerOperator(OperatorDto operatorDto);
+    Optional<Operator> findByEmail(String email);
 
-    String registerAdmin(OperatorDto operatorDto);
+    void registerOperator(OperatorDto operatorDto);
+
+    void registerAdmin(OperatorDto operatorDto);
 
     boolean operatorExistsByName(String name);
 
     void deleteOperatorById(long id);
 
     List<CheckOperatorDto> getCheckList();
-
-    Operator findById(long id);
-
-   // void addNewOperator(OperatorDto operatorDto);
 }

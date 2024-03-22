@@ -7,7 +7,7 @@ import lombok.Data;
 @Builder
 public class MasterTicketDto {
     private long atmId;
-    private long operatorId;
+    private String email;
     private String clientDescription;
     private String operatorDescription;
 }

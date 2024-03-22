@@ -55,7 +55,7 @@ class OperatorServiceTest {
 
     @Test
     void deleteOperatorByIdTest_OPERATOR_NOT_FOUND() {
-        when(operatorRepository.existsById(1L)).thenReturn(false);
+        when(operatorRepository.findById(1L)).thenThrow(AtmNotFoundException.class);
 
         assertThrows(AtmNotFoundException.class, () -> {
             operatorService.deleteOperatorById(1L);
@@ -64,11 +64,24 @@ class OperatorServiceTest {
 
     @Test
     void deleteOperatorByIdTest_SUCCESS() {
-        when(operatorRepository.existsById(1L)).thenReturn(true);
+        Role role = Role.builder()
+                .role("ROLE_USER")
+                .build();
+
+        Operator mockOperator = Operator.builder()
+                .name("Test")
+                .role("TestRole")
+                .phone("555666444")
+                .roles(Collections.singletonList(role))
+                .email("karol@ss.pl")
+                .password("xxxx")
+                .build();
+
+        when(operatorRepository.findById(1L)).thenReturn(Optional.ofNullable(mockOperator));
 
         operatorService.deleteOperatorById(1L);
 
-        verify(operatorRepository).deleteById(1L);
+        verify(operatorRepository).delete(mockOperator);
     }
 
     @Test
@@ -158,29 +171,5 @@ class OperatorServiceTest {
         List<CheckOperatorDto> result = operatorService.getCheckList();
 
         assertEquals(mockCheckList, result);
-    }
-
-    @Test
-    void findAtmByIdTest_NOT_FOUND() {
-        when(operatorRepository.findById(1L)).thenReturn(Optional.empty());
-
-        assertThrows(RuntimeException.class, () -> {
-            operatorService.findById(1L);
-        });
-    }
-
-    @Test
-    void findAtmByIdTest() {
-        Operator mockOperator = Operator.builder()
-                .name("Test")
-                .role("TestRole")
-                .phone("555666444")
-                .build();
-
-        when(operatorRepository.findById(1L)).thenReturn(Optional.of(mockOperator));
-
-        Operator result = operatorService.findById(1L);
-
-        assertEquals(mockOperator, result);
     }
 }

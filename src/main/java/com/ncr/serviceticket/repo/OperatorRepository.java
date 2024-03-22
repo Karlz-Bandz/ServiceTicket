@@ -12,6 +12,8 @@ import java.util.Optional;
 @Repository
 public interface OperatorRepository extends JpaRepository<Operator, Long> {
 
+    Optional<Operator> findById(long id);
+
     boolean existsByName(String name);
 
     boolean existsByEmail(String email);
