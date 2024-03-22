@@ -21,6 +21,7 @@ import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -38,6 +39,19 @@ class OperatorServiceTest {
 
     @InjectMocks
     private OperatorServiceImpl operatorService;
+
+    @Test
+    void operatorExistsByNameTest_SUCCESS() {
+
+        final String mockName = "John";
+
+        when(operatorRepository.existsByName(mockName))
+                .thenReturn(true);
+
+        boolean result = operatorService.operatorExistsByName(mockName);
+
+        assertTrue(result);
+    }
 
     @Test
     void deleteOperatorByIdTest_OPERATOR_NOT_FOUND() {
@@ -58,7 +72,7 @@ class OperatorServiceTest {
     }
 
     @Test
-    void addNewOperatorTest_SUCCESS() {
+    void registerUserTest_SUCCESS() {
         Role role = Role.builder()
                 .role("ROLE_USER")
                 .build();
@@ -87,6 +101,40 @@ class OperatorServiceTest {
         when(operatorRepository.save(mockOperator)).thenReturn(mockOperator);
 
         operatorService.registerOperator(operatorDto);
+
+        verify(operatorRepository).save(mockOperator);
+    }
+
+    @Test
+    void registerAdminTest_SUCCESS() {
+        Role role = Role.builder()
+                .role("ROLE_ADMIN")
+                .build();
+
+        Operator mockOperator = Operator.builder()
+                .name("Test")
+                .role("TestRole")
+                .phone("555666444")
+                .roles(Collections.singletonList(role))
+                .email("karol@ss.pl")
+                .password("xxxx")
+                .build();
+
+        OperatorDto operatorDto = OperatorDto.builder()
+                .name("Test")
+                .role("TestRole")
+                .phone("555666444")
+                .password("pass")
+                .email("karol@ss.pl")
+                .build();
+
+        when(roleRepository.findByRole(role.getRole())).thenReturn(Optional.of(role));
+
+        when(passwordEncoder.encode(operatorDto.getPassword())).thenReturn("xxxx");
+
+        when(operatorRepository.save(mockOperator)).thenReturn(mockOperator);
+
+        operatorService.registerAdmin(operatorDto);
 
         verify(operatorRepository).save(mockOperator);
     }

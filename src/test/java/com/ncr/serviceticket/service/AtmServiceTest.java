@@ -18,7 +18,9 @@ import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.mockito.Mockito.*;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 class AtmServiceTest {
@@ -30,7 +32,103 @@ class AtmServiceTest {
     private AtmServiceImpl atmService;
 
     @Test
-    void deleteAtmByIdTest_ATM_NOT_FOUND(){
+    void existsAtmIdTest_SUCCESS() {
+
+        final String atmId = "TESTIDID";
+
+        when(atmRepository.existsByAtmId(atmId))
+                .thenReturn(true);
+
+        boolean result = atmService.existsByAtmId(atmId);
+
+        assertTrue(result);
+    }
+
+    @Test
+    void existsBySerialNoTest_SUCCESS() {
+
+        final String mockSerial = "13-2222222";
+
+        when(atmRepository.existsBySerialNo(mockSerial))
+                .thenReturn(true);
+
+        boolean result = atmService.existsBySerialNo(mockSerial);
+
+        assertTrue(result);
+    }
+
+    @Test
+    void findByAtmIdTest_NO_NOT_FOUND() {
+
+        final String atmId = "TESTIDID";
+
+        when(atmRepository.existsByAtmId(atmId))
+                .thenReturn(false);
+
+        assertThrows(AtmNotFoundException.class, () -> {
+            atmService.findByAtmId(atmId);
+        });
+    }
+
+    @Test
+    void findByAtmIdTest_SUCCESS() {
+        Atm mockAtm = Atm.builder()
+                .atmId("BPSA2233")
+                .type("Type")
+                .phone("5555555")
+                .serialNo("13-3444333")
+                .clientName("Bank w Warszawie")
+                .location("Warsaw, ul. Ulica 56")
+                .build();
+
+        when(atmRepository.existsByAtmId(mockAtm.getAtmId()))
+                .thenReturn(true);
+
+        when(atmRepository.findByAtmId(mockAtm.getAtmId()))
+                .thenReturn(mockAtm);
+
+        Atm result = atmService.findByAtmId(mockAtm.getAtmId());
+
+        assertEquals(mockAtm, result);
+    }
+
+    @Test
+    void findBySerialNOTest_NOT_FOUND() {
+
+        final String mockSerial = "13-2222222";
+
+        when(atmRepository.existsBySerialNo(mockSerial))
+                .thenReturn(false);
+
+        assertThrows(AtmNotFoundException.class, () -> {
+            atmService.findBySerialNo(mockSerial);
+        });
+    }
+
+    @Test
+    void findBySerialNOTest_SUCCESS() {
+        Atm mockAtm = Atm.builder()
+                .atmId("BPSA2233")
+                .type("Type")
+                .phone("5555555")
+                .serialNo("13-3444333")
+                .clientName("Bank w Warszawie")
+                .location("Warsaw, ul. Ulica 56")
+                .build();
+
+        when(atmRepository.existsBySerialNo(mockAtm.getSerialNo()))
+                .thenReturn(true);
+
+        when(atmRepository.findBySerialNo(mockAtm.getSerialNo()))
+                .thenReturn(mockAtm);
+
+        Atm result = atmService.findBySerialNo(mockAtm.getSerialNo());
+
+        assertEquals(mockAtm, result);
+    }
+
+    @Test
+    void deleteAtmByIdTest_ATM_NOT_FOUND() {
         when(atmRepository.existsById(1L)).thenReturn(false);
 
         assertThrows(AtmNotFoundException.class, () -> {
@@ -39,7 +137,7 @@ class AtmServiceTest {
     }
 
     @Test
-    void deleteAtmByIdTest_SUCCESS(){
+    void deleteAtmByIdTest_SUCCESS() {
         when(atmRepository.existsById(1L)).thenReturn(true);
 
         atmService.deleteAtmById(1L);

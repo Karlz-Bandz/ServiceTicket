@@ -20,13 +20,6 @@ class OperatorRepositoryTest {
     @Autowired
     private OperatorRepository operatorRepository;
 
-    @Test
-    void getOperatorCheckListTest() {
-        List<CheckOperatorDto> result = operatorRepository.getOperatorCheckList();
-        assertEquals(2, result.size());
-        assertEquals("Iza Test", result.get(1).getName());
-    }
-
     @BeforeAll
     @Transactional
     static void setData(@Autowired RoleRepository roleRepository, @Autowired OperatorRepository operatorRepository) {
@@ -59,5 +52,12 @@ class OperatorRepositoryTest {
 
         operatorRepository.save(operator1);
         operatorRepository.save(operator2);
+    }
+
+    @Test
+    void getOperatorCheckListTest() {
+        List<CheckOperatorDto> result = operatorRepository.getOperatorCheckList();
+        assertEquals(2, result.size());
+        assertEquals("Iza Test", result.get(1).getName());
     }
 }
