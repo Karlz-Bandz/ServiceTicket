@@ -35,6 +35,7 @@ public class OperatorServiceImpl implements OperatorService {
     }
 
     @Override
+    @Transactional
     public void registerOperator(OperatorDto operatorDto) {
         Role roles = roleRepository.findByRole("ROLE_USER")
                 .orElseThrow(() -> new RuntimeException("USER role not found!"));
@@ -58,6 +59,7 @@ public class OperatorServiceImpl implements OperatorService {
     }
 
     @Override
+    @Transactional
     public void registerAdmin(OperatorDto operatorDto) {
         Role roles = roleRepository.findByRole("ROLE_ADMIN")
                 .orElseThrow(() -> new RuntimeException("ADMIN role not found!"));
@@ -83,6 +85,11 @@ public class OperatorServiceImpl implements OperatorService {
     @Override
     public boolean operatorExistsByName(String name) {
         return operatorRepository.existsByName(name);
+    }
+
+    @Override
+    public boolean operatorExistsByEmail(String email) {
+        return operatorRepository.existsByEmail(email);
     }
 
     @Override

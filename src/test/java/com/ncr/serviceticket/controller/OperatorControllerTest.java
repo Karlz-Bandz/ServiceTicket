@@ -72,7 +72,81 @@ class OperatorControllerTest {
 
     @Test
     @WithMockUser(username = "user", authorities = "ROLE_ADMIN")
-    void addNewOperatorTest_SUCCESS() throws Exception {
+    void existsByName_SUCCESS() throws Exception {
+
+        mockMvc.perform(MockMvcRequestBuilders
+                        .get("/operator/exists/TestOperator1")
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(MockMvcResultMatchers.status().isOk());
+    }
+
+    @Test
+    @WithMockUser(username = "user", authorities = "ROLE_ADMIN")
+    void existsByEmail_SUCCESS() throws Exception {
+
+        mockMvc.perform(MockMvcRequestBuilders
+                        .get("/operator/exists/email/test@ss.pl")
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(MockMvcResultMatchers.status().isOk());
+    }
+
+    @Test
+    @WithMockUser(username = "user", authorities = "ROLE_USER")
+    void registerAdmin_UNAUTHORIZED() throws Exception {
+        OperatorDto operatorDto = OperatorDto.builder()
+                .name("Test2")
+                .phone("443322")
+                .role("Operator")
+                .email("test3@ss.pl")
+                .password("pass")
+                .build();
+
+        mockMvc.perform(MockMvcRequestBuilders
+                        .post("/operator/register/admin")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(operatorDto)))
+                .andExpect(MockMvcResultMatchers.status().isForbidden());
+    }
+
+    @Test
+    @WithMockUser(username = "user", authorities = "ROLE_ADMIN")
+    void registerAdmin_SUCCESS() throws Exception {
+        OperatorDto operatorDto = OperatorDto.builder()
+                .name("Test2")
+                .phone("443322")
+                .role("Operator")
+                .email("test3@ss.pl")
+                .password("pass")
+                .build();
+
+        mockMvc.perform(MockMvcRequestBuilders
+                        .post("/operator/register/admin")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(operatorDto)))
+                .andExpect(MockMvcResultMatchers.status().isCreated());
+    }
+
+    @Test
+    @WithMockUser(username = "user", authorities = "ROLE_USER")
+    void registerUserTest_UNAUTHORIZED() throws Exception {
+        OperatorDto operatorDto = OperatorDto.builder()
+                .name("Test1")
+                .phone("443322")
+                .role("Operator")
+                .email("test2@ss.pl")
+                .password("pass")
+                .build();
+
+        mockMvc.perform(MockMvcRequestBuilders
+                        .post("/operator/register")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(operatorDto)))
+                .andExpect(MockMvcResultMatchers.status().isForbidden());
+    }
+
+    @Test
+    @WithMockUser(username = "user", authorities = "ROLE_ADMIN")
+    void registerUserTest_SUCCESS() throws Exception {
         OperatorDto operatorDto = OperatorDto.builder()
                 .name("Test1")
                 .phone("443322")

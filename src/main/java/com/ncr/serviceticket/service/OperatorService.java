@@ -17,6 +17,8 @@ public interface OperatorService {
 
     boolean operatorExistsByName(String name);
 
+    boolean operatorExistsByEmail(String email);
+
     void deleteOperatorById(long id);
 
     List<CheckOperatorDto> getCheckList();
