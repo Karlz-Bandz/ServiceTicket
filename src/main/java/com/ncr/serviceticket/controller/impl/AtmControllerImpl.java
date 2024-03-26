@@ -5,6 +5,7 @@ import com.ncr.serviceticket.dto.AtmDto;
 import com.ncr.serviceticket.dto.CheckAtmDto;
 import com.ncr.serviceticket.model.Atm;
 import com.ncr.serviceticket.service.AtmService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
@@ -12,12 +13,19 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
+@RequiredArgsConstructor
 public class AtmControllerImpl implements AtmController {
 
     private final AtmService atmService;
 
-    public AtmControllerImpl(AtmService atmService) {
-        this.atmService = atmService;
+    @Override
+    public ResponseEntity<Atm> findBySerialNo(String serialNo) {
+        return ResponseEntity.ok(atmService.findBySerialNo(serialNo));
+    }
+
+    @Override
+    public ResponseEntity<Atm> findByAtmId(String atmId) {
+        return ResponseEntity.ok(atmService.findByAtmId(atmId));
     }
 
     @Override

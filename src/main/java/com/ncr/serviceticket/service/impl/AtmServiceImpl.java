@@ -8,18 +8,36 @@ import com.ncr.serviceticket.model.Atm;
 import com.ncr.serviceticket.repo.AtmRepository;
 import com.ncr.serviceticket.service.AtmService;
 import jakarta.transaction.Transactional;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.Comparator;
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class AtmServiceImpl implements AtmService {
 
     private final AtmRepository atmRepository;
 
-    public AtmServiceImpl(AtmRepository atmRepository) {
-        this.atmRepository = atmRepository;
+    @Override
+    @Transactional
+    public Atm findBySerialNo(String serialNo) {
+        if(atmRepository.existsBySerialNo(serialNo)){
+            return atmRepository.findBySerialNo(serialNo);
+        }else{
+            throw new AtmNotFoundException("Serial no. doesn't exists!");
+        }
+    }
+
+    @Override
+    @Transactional
+    public Atm findByAtmId(String atmId) {
+        if(atmRepository.existsByAtmId(atmId)){
+            return atmRepository.findByAtmId(atmId);
+        }else {
+            throw new AtmNotFoundException("Atm doesn't exist!");
+        }
     }
 
     @Override
@@ -67,7 +85,7 @@ public class AtmServiceImpl implements AtmService {
     @Override
     public Atm findAtmById(long id) {
         return atmRepository.findById(id).orElseThrow(
-                () -> new RuntimeException("Atm was not found!")
+                () -> new AtmNotFoundException("Atm does not found!")
         );
     }
 

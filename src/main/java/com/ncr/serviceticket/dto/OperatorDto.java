@@ -10,8 +10,6 @@ import lombok.Data;
 @Builder
 public class OperatorDto {
 
-    private long id;
-
     @NotBlank
     @Size(max = 50)
     private String name;
@@ -24,4 +22,12 @@ public class OperatorDto {
     @Size(max = 50)
     @ContactNumberConstraint
     private String phone;
+
+    @NotBlank
+    @Size(max = 32)
+    private String email;
+
+    @NotBlank
+    @Size(max = 200)
+    private String password;
 }

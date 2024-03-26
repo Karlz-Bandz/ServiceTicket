@@ -15,30 +15,29 @@ import com.ncr.serviceticket.model.Operator;
 import com.ncr.serviceticket.service.AtmService;
 import com.ncr.serviceticket.service.OperatorService;
 import com.ncr.serviceticket.service.PdfGenerationService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.io.OutputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.File;
+import java.nio.file.Files;
 
 @Service
+@RequiredArgsConstructor
 public class PdfGenerationServiceImpl implements PdfGenerationService {
 
     private final AtmService atmService;
 
     private final OperatorService operatorService;
 
-    public PdfGenerationServiceImpl(AtmService atmService, OperatorService operatorService) {
-        this.atmService = atmService;
-        this.operatorService = operatorService;
-    }
-
     @Override
-    public void generatePdf(MasterTicketDto masterTicketDto) throws IOException, DocumentException {
+    public byte[] generatePdf(MasterTicketDto masterTicketDto) throws IOException, DocumentException {
 
         Atm atm = atmService.findAtmById(masterTicketDto.getAtmId());
-        Operator operator = operatorService.findById(masterTicketDto.getOperatorId());
+        Operator operator = operatorService.findByEmail(masterTicketDto.getEmail())
+                .orElseThrow(() -> new RuntimeException("Operator not found"));
 
         final String fontPath = "/fonts/OpenSans_Condensed-Light.ttf";
         final String fontEncoding = "Cp1250";
@@ -115,6 +114,8 @@ public class PdfGenerationServiceImpl implements PdfGenerationService {
         } catch (IOException e) {
             throw new IOException(e);
         }
+
+        return Files.readAllBytes(file.toPath());
     }
 
     private void addRow(PdfPTable table, String key, String value) {

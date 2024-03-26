@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
@@ -55,7 +56,64 @@ class AtmControllerTest {
     }
 
     @Test
-    void getCheckList_SUCCESS() throws Exception {
+    @WithMockUser(username = "user", authorities = "ROLE_ADMIN")
+    void deleteAtmByIdTest() throws Exception {
+        mockMvc.perform(MockMvcRequestBuilders
+                        .delete("/atm/delete/2")
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(MockMvcResultMatchers.status().isNoContent());
+
+        AtmDto atmDto = AtmDto.builder()
+                .atmId("BPSA2291")
+                .clientName("BankBankBank")
+                .serialNo("13-373444333")
+                .type("BANKOMAT")
+                .phone("333444333")
+                .location("Test Street 2343")
+                .build();
+
+        atmService.addNewAtm(atmDto);
+    }
+
+    @Test
+    @WithMockUser(username = "user", authorities = "ROLE_USER")
+    void existsByAtmIdTest() throws Exception {
+        mockMvc.perform(MockMvcRequestBuilders
+                        .get("/atm/exists/BPSA2291")
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(MockMvcResultMatchers.status().isOk());
+    }
+
+    @Test
+    @WithMockUser(username = "user", authorities = "ROLE_USER")
+    void existsBySerialNoTest() throws Exception {
+        mockMvc.perform(MockMvcRequestBuilders
+                        .get("/atm/exists/sn/13-373444333")
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(MockMvcResultMatchers.status().isOk());
+    }
+
+    @Test
+    @WithMockUser(username = "user", authorities = "ROLE_USER")
+    void findByAtmIdTest() throws Exception {
+        mockMvc.perform(MockMvcRequestBuilders
+                        .get("/atm/find/name/BPSA2211")
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(MockMvcResultMatchers.status().isOk());
+    }
+
+    @Test
+    @WithMockUser(username = "user", authorities = "ROLE_USER")
+    void findBySerialNoTest() throws Exception {
+        mockMvc.perform(MockMvcRequestBuilders
+                        .get("/atm/find/sn/13-333444333")
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(MockMvcResultMatchers.status().isOk());
+    }
+
+    @Test
+    @WithMockUser(username = "user", authorities = "ROLE_USER")
+    void getCheckListTest_SUCCESS() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders
                         .get("/atm/checklist")
                         .contentType(MediaType.APPLICATION_JSON))
@@ -63,6 +121,7 @@ class AtmControllerTest {
     }
 
     @Test
+    @WithMockUser(username = "user", authorities = "ROLE_USER")
     void findByIdTest_SUCCESS() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders
                         .get("/atm/find/1")
@@ -71,6 +130,7 @@ class AtmControllerTest {
     }
 
     @Test
+    @WithMockUser(username = "user", authorities = "ROLE_ADMIN")
     void addNewAtmTest_SUCCESS() throws Exception {
         AtmDto atmDto = AtmDto.builder()
                 .atmId("BPSA2811")
