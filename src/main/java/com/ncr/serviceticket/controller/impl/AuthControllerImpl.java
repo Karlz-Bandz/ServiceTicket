@@ -39,7 +39,5 @@ public class AuthControllerImpl implements AuthController {
         } else {
             return ResponseEntity.status(400).body(TokenDto.builder().token("").build());
         }
-
-
     }
 }

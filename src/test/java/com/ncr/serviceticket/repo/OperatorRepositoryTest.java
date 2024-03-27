@@ -2,7 +2,7 @@ package com.ncr.serviceticket.repo;
 
 import com.ncr.serviceticket.dto.CheckOperatorDto;
 import com.ncr.serviceticket.model.Operator;
-import com.ncr.serviceticket.model.Role;
+import com.ncr.serviceticket.model.AuthorizationPosition;
 import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -24,13 +24,13 @@ class OperatorRepositoryTest {
     @Transactional
     static void setData(@Autowired RoleRepository roleRepository, @Autowired OperatorRepository operatorRepository) {
 
-        Role role = Role.builder()
+        AuthorizationPosition role = AuthorizationPosition.builder()
                 .role("ROLE_USER")
                 .build();
 
         roleRepository.save(role);
 
-        Role roleForOperator = roleRepository.findByRole("ROLE_USER")
+        AuthorizationPosition roleForOperator = roleRepository.findByRole("ROLE_USER")
                 .orElseThrow(() -> new RuntimeException("USER role not found!"));
 
         Operator operator1 = Operator.builder()

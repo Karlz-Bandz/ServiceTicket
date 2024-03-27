@@ -4,7 +4,7 @@ import com.ncr.serviceticket.dto.CheckOperatorDto;
 import com.ncr.serviceticket.dto.OperatorDto;
 import com.ncr.serviceticket.exception.atm.AtmNotFoundException;
 import com.ncr.serviceticket.model.Operator;
-import com.ncr.serviceticket.model.Role;
+import com.ncr.serviceticket.model.AuthorizationPosition;
 import com.ncr.serviceticket.repo.OperatorRepository;
 import com.ncr.serviceticket.repo.RoleRepository;
 import com.ncr.serviceticket.service.impl.OperatorServiceImpl;
@@ -64,7 +64,7 @@ class OperatorServiceTest {
 
     @Test
     void deleteOperatorByIdTest_SUCCESS() {
-        Role role = Role.builder()
+        AuthorizationPosition role = AuthorizationPosition.builder()
                 .role("ROLE_USER")
                 .build();
 
@@ -86,7 +86,7 @@ class OperatorServiceTest {
 
     @Test
     void registerUserTest_SUCCESS() {
-        Role role = Role.builder()
+        AuthorizationPosition role = AuthorizationPosition.builder()
                 .role("ROLE_USER")
                 .build();
 
@@ -120,7 +120,7 @@ class OperatorServiceTest {
 
     @Test
     void registerAdminTest_SUCCESS() {
-        Role role = Role.builder()
+        AuthorizationPosition role = AuthorizationPosition.builder()
                 .role("ROLE_ADMIN")
                 .build();
 

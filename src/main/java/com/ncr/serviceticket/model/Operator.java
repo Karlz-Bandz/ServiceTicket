@@ -61,5 +61,10 @@ public class Operator {
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
     @JoinTable(name = "operator_roles", joinColumns = @JoinColumn(name = "operator_id", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"))
-    private List<Role> roles = new ArrayList<>();
+    private List<AuthorizationPosition> roles = new ArrayList<>();
+
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
+    @JoinTable(name = "operator_messages", joinColumns = @JoinColumn(name = "operator_id", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "message_id", referencedColumnName = "id"))
+    private List<MessagePattern> messages = new ArrayList<>();
 }

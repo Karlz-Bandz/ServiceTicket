@@ -3,7 +3,7 @@ package com.ncr.serviceticket.controller;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ncr.serviceticket.controller.impl.OperatorControllerImpl;
 import com.ncr.serviceticket.dto.OperatorDto;
-import com.ncr.serviceticket.model.Role;
+import com.ncr.serviceticket.model.AuthorizationPosition;
 import com.ncr.serviceticket.repo.RoleRepository;
 import com.ncr.serviceticket.service.OperatorService;
 import org.junit.jupiter.api.BeforeAll;
@@ -40,11 +40,11 @@ class OperatorControllerTest {
     @BeforeAll
     static void setUp(@Autowired OperatorService operatorService, @Autowired RoleRepository roleRepository) {
 
-        Role roleAdmin = Role.builder()
+        AuthorizationPosition roleAdmin = AuthorizationPosition.builder()
                 .role("ROLE_ADMIN")
                 .build();
 
-        Role roleUser = Role.builder()
+        AuthorizationPosition roleUser = AuthorizationPosition.builder()
                 .role("ROLE_USER")
                 .build();
 
