@@ -25,7 +25,7 @@ public class MessagePattern {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(nullable = false, updatable = false)
-    private int id;
+    private long id;
 
     @Column(name = "title")
     @NotBlank
