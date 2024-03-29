@@ -6,6 +6,6 @@ import lombok.Data;
 @Data
 @Builder
 public class RemoveMessageDto {
-    private long id;
+    private String email;
     private long messageId;
 }

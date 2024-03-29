@@ -1,6 +1,5 @@
 package com.ncr.serviceticket.dto;
 
-import com.ncr.serviceticket.model.MessagePattern;
 import lombok.Builder;
 import lombok.Data;
 
@@ -8,5 +7,7 @@ import lombok.Data;
 @Builder
 public class AddMessageDto {
     private long id;
-    private MessagePattern messagePattern;
+    private String email;
+    private String title;
+    private String message;
 }
