@@ -38,7 +38,6 @@ class MessageControllerTest {
 
     @BeforeEach
     void setUp(@Autowired OperatorService operatorService, @Autowired MessageService messageService, @Autowired RoleRepository roleRepository) {
-
         AuthorizationPosition roleAdmin = AuthorizationPosition.builder()
                 .role("ROLE_ADMIN")
                 .build();
@@ -90,6 +89,39 @@ class MessageControllerTest {
 
     @Test
     @WithMockUser(username = "test@ss.com", authorities = "ROLE_USER")
+    void getAllMessagesTest_FORBIDDEN() throws Exception {
+        mockMvc.perform(MockMvcRequestBuilders
+                        .get("/message/all/test2@ss.com")
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(MockMvcResultMatchers.status().isForbidden());
+    }
+
+    @Test
+    @WithMockUser(username = "test@ss.com", authorities = "ROLE_USER")
+    void getAllMessagesTest_SUCCESS() throws Exception {
+        mockMvc.perform(MockMvcRequestBuilders
+                        .get("/message/all/test@ss.com")
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(MockMvcResultMatchers.status().isOk());
+    }
+
+    @Test
+    @WithMockUser(username = "test@ss.com", authorities = "ROLE_USER")
+    void removeMessage_FORBIDDEN() throws Exception {
+        RemoveMessageDto removeMessageDto = RemoveMessageDto.builder()
+                .email("another@ss.com")
+                .messageId(1L)
+                .build();
+
+        mockMvc.perform(MockMvcRequestBuilders
+                        .delete("/message/delete")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(removeMessageDto)))
+                .andExpect(MockMvcResultMatchers.status().isForbidden());
+    }
+
+    @Test
+    @WithMockUser(username = "test@ss.com", authorities = "ROLE_USER")
     void removeMessage_SUCCESS() throws Exception {
         RemoveMessageDto removeMessageDto = RemoveMessageDto.builder()
                 .email("test@ss.com")
@@ -101,6 +133,22 @@ class MessageControllerTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(removeMessageDto)))
                 .andExpect(MockMvcResultMatchers.status().isNoContent());
+    }
+
+    @Test
+    @WithMockUser(username = "user@ss.com", authorities = "ROLE_USER")
+    void addMessage_FORBIDDEN() throws Exception {
+        AddMessageDto addMessageDto = AddMessageDto.builder()
+                .email("another@ss.com")
+                .title("TitleTest")
+                .message("MessageTest")
+                .build();
+
+        mockMvc.perform(MockMvcRequestBuilders
+                        .post("/message/add")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(addMessageDto)))
+                .andExpect(MockMvcResultMatchers.status().isForbidden());
     }
 
     @Test

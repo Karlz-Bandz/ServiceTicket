@@ -27,8 +27,15 @@ public class MessageControllerImpl implements MessageController {
     private final MessageService messageService;
 
     @Override
-    public ResponseEntity<List<CheckMessageDto>> getAllMessages(String email) {
-        return ResponseEntity.ok(messageService.getAllMessagesByEmail(email));
+    public ResponseEntity<List<CheckMessageDto>> getAllMessages(String email, Authentication authentication) {
+        final UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+        final String authEmail = userDetails.getUsername();
+
+        if (email.equals(authEmail)) {
+            return ResponseEntity.ok(messageService.getAllMessagesByEmail(email));
+        } else {
+            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+        }
     }
 
     @Override

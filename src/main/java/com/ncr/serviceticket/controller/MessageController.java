@@ -18,7 +18,7 @@ import java.util.List;
 public interface MessageController {
 
     @GetMapping("/all/{email}")
-    ResponseEntity<List<CheckMessageDto>> getAllMessages(@PathVariable("email") String email);
+    ResponseEntity<List<CheckMessageDto>> getAllMessages(@PathVariable("email") String email, Authentication authentication);
 
     @PostMapping("/add")
     ResponseEntity<Void> addMessage(@RequestBody AddMessageDto addMessageDto, Authentication authentication);
