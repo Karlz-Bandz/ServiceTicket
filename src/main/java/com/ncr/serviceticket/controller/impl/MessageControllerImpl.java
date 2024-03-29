@@ -2,6 +2,7 @@ package com.ncr.serviceticket.controller.impl;
 
 import com.ncr.serviceticket.controller.MessageController;
 import com.ncr.serviceticket.dto.AddMessageDto;
+import com.ncr.serviceticket.dto.CheckMessageDto;
 import com.ncr.serviceticket.dto.RemoveMessageDto;
 import com.ncr.serviceticket.exception.atm.AtmNotFoundException;
 import com.ncr.serviceticket.model.MessagePattern;
@@ -15,6 +16,8 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 @RestController
 @RequiredArgsConstructor
 public class MessageControllerImpl implements MessageController {
@@ -22,6 +25,11 @@ public class MessageControllerImpl implements MessageController {
     private final OperatorService operatorService;
 
     private final MessageService messageService;
+
+    @Override
+    public ResponseEntity<List<CheckMessageDto>> getAllMessages(String email) {
+        return ResponseEntity.ok(messageService.getAllMessagesByEmail(email));
+    }
 
     @Override
     public ResponseEntity<Void> addMessage(AddMessageDto addMessageDto, Authentication authentication) {
