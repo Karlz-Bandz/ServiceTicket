@@ -1,5 +1,6 @@
 package com.ncr.serviceticket.service;
 
+import com.ncr.serviceticket.dto.CheckMessageDto;
 import com.ncr.serviceticket.model.AuthorizationPosition;
 import com.ncr.serviceticket.model.MessagePattern;
 import com.ncr.serviceticket.model.Operator;
@@ -12,10 +13,12 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -27,6 +30,38 @@ class MessageServiceTest {
 
     @InjectMocks
     private MessageServiceImpl messageService;
+
+    @Test
+    void getAllMessagesByEmailTest_SUCCESS() {
+        final String userEmail = "john@ss.com";
+
+        CheckMessageDto checkMessageDto1 = CheckMessageDto.builder()
+                .id(1L)
+                .message("Message1")
+                .title("Title1")
+                .build();
+        CheckMessageDto checkMessageDto2 = CheckMessageDto.builder()
+                .id(2L)
+                .message("Message2")
+                .title("Title2")
+                .build();
+        CheckMessageDto checkMessageDto3 = CheckMessageDto.builder()
+                .id(3L)
+                .message("Message3")
+                .title("Title3")
+                .build();
+
+        List<CheckMessageDto> mockCheckMessages = Arrays.asList(
+                checkMessageDto1,
+                checkMessageDto2,
+                checkMessageDto3);
+
+        when(messagePatternRepository.findByOwnerUsername(userEmail)).thenReturn(mockCheckMessages);
+
+        List<CheckMessageDto> result = messageService.getAllMessagesByEmail(userEmail);
+
+        assertEquals(result, mockCheckMessages);
+    }
 
     @Test
     void removeMessageTest_SUCCESS() {
