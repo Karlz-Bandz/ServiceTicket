@@ -14,4 +14,7 @@ public interface MessagePatternRepository extends JpaRepository<MessagePattern, 
 
     @Query("SELECT new com.ncr.serviceticket.dto.CheckMessageDto(a.id, a.title, a.message) FROM MessagePattern a WHERE a.operator.email = :email")
     List<CheckMessageDto> findByOwnerUsername(@Param("email") String email);
+
+    @Query("SELECT a.id FROM MessagePattern a WHERE a.operator.email = :email")
+    List<Long> findEachIdByEmail(@Param("email") String email);
 }

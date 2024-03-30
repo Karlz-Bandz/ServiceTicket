@@ -17,6 +17,22 @@ public class MessageServiceImpl implements MessageService {
     private final MessagePatternRepository messagePatternRepository;
 
     @Override
+    public List<Long> findEachIdByEmail(String email) {
+        return messagePatternRepository.findEachIdByEmail(email);
+    }
+
+    @Override
+    public void changeMessageById(MessagePattern messagePattern) {
+        MessagePattern foundMessagePattern = messagePatternRepository.findById(messagePattern.getId())
+                .orElseThrow(() -> new AtmNotFoundException("Message not found!"));
+
+        foundMessagePattern.setMessage(messagePattern.getMessage());
+        foundMessagePattern.setTitle(messagePattern.getTitle());
+
+        messagePatternRepository.save(foundMessagePattern);
+    }
+
+    @Override
     public List<CheckMessageDto> getAllMessagesByEmail(String email) {
         return messagePatternRepository.findByOwnerUsername(email);
     }

@@ -7,6 +7,10 @@ import java.util.List;
 
 public interface MessageService {
 
+    List<Long> findEachIdByEmail(String email);
+
+    void changeMessageById(MessagePattern messagePattern);
+
     List<CheckMessageDto> getAllMessagesByEmail(String email);
 
     void addMessage(MessagePattern messagePattern);

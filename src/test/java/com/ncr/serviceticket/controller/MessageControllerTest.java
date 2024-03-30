@@ -91,7 +91,7 @@ class MessageControllerTest {
     @WithMockUser(username = "test@ss.com", authorities = "ROLE_USER")
     void getAllMessagesTest_FORBIDDEN() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders
-                        .get("/message/all/test2@ss.com")
+                        .get("/message/test2@ss.com/all")
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(MockMvcResultMatchers.status().isForbidden());
     }
@@ -100,7 +100,7 @@ class MessageControllerTest {
     @WithMockUser(username = "test@ss.com", authorities = "ROLE_USER")
     void getAllMessagesTest_SUCCESS() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders
-                        .get("/message/all/test@ss.com")
+                        .get("/message/test@ss.com/all")
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(MockMvcResultMatchers.status().isOk());
     }

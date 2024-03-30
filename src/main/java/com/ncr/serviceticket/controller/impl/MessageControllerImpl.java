@@ -27,6 +27,29 @@ public class MessageControllerImpl implements MessageController {
     private final MessageService messageService;
 
     @Override
+    public ResponseEntity<Void> changeMessageById(AddMessageDto addMessageDto, Authentication authentication) {
+        final UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+        final String authEmail = userDetails.getUsername();
+
+        List<Long> messagesId = messageService.findEachIdByEmail(authEmail);
+
+        if (messagesId.contains(addMessageDto.getId())) {
+
+            MessagePattern messagePattern = MessagePattern.builder()
+                    .id(addMessageDto.getId())
+                    .message(addMessageDto.getMessage())
+                    .title(addMessageDto.getTitle())
+                    .build();
+
+            messageService.changeMessageById(messagePattern);
+
+            return new ResponseEntity<>(HttpStatus.CREATED);
+        } else {
+            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+        }
+    }
+
+    @Override
     public ResponseEntity<List<CheckMessageDto>> getAllMessages(String email, Authentication authentication) {
         final UserDetails userDetails = (UserDetails) authentication.getPrincipal();
         final String authEmail = userDetails.getUsername();
@@ -67,7 +90,9 @@ public class MessageControllerImpl implements MessageController {
         final UserDetails userDetails = (UserDetails) authentication.getPrincipal();
         final String authEmail = userDetails.getUsername();
 
-        if (removeMessageDto.getEmail().equals(authEmail)) {
+        List<Long> messagesId = messageService.findEachIdByEmail(authEmail);
+
+        if (messagesId.contains(removeMessageDto.getMessageId())) {
 
             messageService.deleteMessage(removeMessageDto.getMessageId());
 
