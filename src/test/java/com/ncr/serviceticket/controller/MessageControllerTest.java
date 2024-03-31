@@ -88,6 +88,38 @@ class MessageControllerTest {
     }
 
     @Test
+    @WithMockUser(username = "user@ss.com", authorities = "ROLE_USER")
+    void changeMessageByIdTest_FORBIDDEN() throws Exception {
+        AddMessageDto addMessageDto = AddMessageDto.builder()
+                .id(1L)
+                .message("New")
+                .title("newTitle")
+                .build();
+
+        mockMvc.perform(MockMvcRequestBuilders
+                        .put("/message/change")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(addMessageDto)))
+                .andExpect(MockMvcResultMatchers.status().isForbidden());
+    }
+
+    @Test
+    @WithMockUser(username = "test@ss.com", authorities = "ROLE_USER")
+    void changeMessageByIdTest_SUCCESS() throws Exception {
+        AddMessageDto addMessageDto = AddMessageDto.builder()
+                .id(1L)
+                .message("New")
+                .title("newTitle")
+                .build();
+
+        mockMvc.perform(MockMvcRequestBuilders
+                        .put("/message/change")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(addMessageDto)))
+                .andExpect(MockMvcResultMatchers.status().isCreated());
+    }
+
+    @Test
     @WithMockUser(username = "test@ss.com", authorities = "ROLE_USER")
     void getAllMessagesTest_FORBIDDEN() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders
@@ -106,10 +138,9 @@ class MessageControllerTest {
     }
 
     @Test
-    @WithMockUser(username = "test@ss.com", authorities = "ROLE_USER")
+    @WithMockUser(username = "test2@ss.com", authorities = "ROLE_USER")
     void removeMessage_FORBIDDEN() throws Exception {
         RemoveMessageDto removeMessageDto = RemoveMessageDto.builder()
-                .email("another@ss.com")
                 .messageId(1L)
                 .build();
 
@@ -124,7 +155,6 @@ class MessageControllerTest {
     @WithMockUser(username = "test@ss.com", authorities = "ROLE_USER")
     void removeMessage_SUCCESS() throws Exception {
         RemoveMessageDto removeMessageDto = RemoveMessageDto.builder()
-                .email("test@ss.com")
                 .messageId(1L)
                 .build();
 

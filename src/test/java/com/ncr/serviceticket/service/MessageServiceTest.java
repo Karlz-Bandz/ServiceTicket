@@ -32,6 +32,66 @@ class MessageServiceTest {
     private MessageServiceImpl messageService;
 
     @Test
+    void findEachIdByEmailTest_SUCCESS() {
+        List<Long> mockIdList = Arrays.asList(1L, 3L, 4L);
+
+        final String mockEmail = "john@ss.com";
+
+        when(messagePatternRepository.findEachIdByEmail(mockEmail)).thenReturn(mockIdList);
+
+        List<Long> result = messageService.findEachIdByEmail(mockEmail);
+
+        assertEquals(result, mockIdList);
+    }
+
+    @Test
+    void changeMessageByIdTest_SUCCESS() {
+        final AuthorizationPosition role = AuthorizationPosition.builder()
+                .role("ROLE_USER")
+                .build();
+
+        List<MessagePattern> messages = new ArrayList<>();
+
+        Operator mockOperator = Operator.builder()
+                .name("Test")
+                .role("TestRole")
+                .phone("555666444")
+                .roles(Collections.singletonList(role))
+                .messages(messages)
+                .email("karol@ss.pl")
+                .password("xxxx")
+                .build();
+
+        MessagePattern messagePattern1 = MessagePattern.builder()
+                .id(1L)
+                .title("Title test")
+                .message("Message test")
+                .operator(mockOperator)
+                .build();
+
+        when(messagePatternRepository.findById(1L)).thenReturn(Optional.ofNullable(messagePattern1));
+
+        MessagePattern myNewMessage = MessagePattern.builder()
+                .title("Title new")
+                .message("new Message")
+                .id(1L)
+                .operator(mockOperator)
+                .build();
+
+        when(messagePatternRepository.save(myNewMessage)).thenReturn(myNewMessage);
+
+        MessagePattern argumentForTest = MessagePattern.builder()
+                .id(1L)
+                .title("Title new")
+                .message("new Message")
+                .build();
+
+        messageService.changeMessageById(argumentForTest);
+
+        verify(messagePatternRepository).save(myNewMessage);
+    }
+
+    @Test
     void getAllMessagesByEmailTest_SUCCESS() {
         final String userEmail = "john@ss.com";
 
