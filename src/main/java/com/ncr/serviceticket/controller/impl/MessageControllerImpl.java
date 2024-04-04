@@ -3,7 +3,6 @@ package com.ncr.serviceticket.controller.impl;
 import com.ncr.serviceticket.controller.MessageController;
 import com.ncr.serviceticket.dto.AddMessageDto;
 import com.ncr.serviceticket.dto.CheckMessageDto;
-import com.ncr.serviceticket.dto.RemoveMessageDto;
 import com.ncr.serviceticket.exception.atm.AtmNotFoundException;
 import com.ncr.serviceticket.model.MessagePattern;
 import com.ncr.serviceticket.model.Operator;
@@ -86,15 +85,15 @@ public class MessageControllerImpl implements MessageController {
     }
 
     @Override
-    public ResponseEntity<Void> removeMessage(RemoveMessageDto removeMessageDto, Authentication authentication) {
+    public ResponseEntity<Void> removeMessage(long id, Authentication authentication) {
         final UserDetails userDetails = (UserDetails) authentication.getPrincipal();
         final String authEmail = userDetails.getUsername();
 
         List<Long> messagesId = messageService.findEachIdByEmail(authEmail);
 
-        if (messagesId.contains(removeMessageDto.getMessageId())) {
+        if (messagesId.contains(id)) {
 
-            messageService.deleteMessage(removeMessageDto.getMessageId());
+            messageService.deleteMessage(id);
 
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         } else {

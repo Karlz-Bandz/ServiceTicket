@@ -140,28 +140,22 @@ class MessageControllerTest {
     @Test
     @WithMockUser(username = "test2@ss.com", authorities = "ROLE_USER")
     void removeMessage_FORBIDDEN() throws Exception {
-        RemoveMessageDto removeMessageDto = RemoveMessageDto.builder()
-                .messageId(1L)
-                .build();
+        final long id = 1L;
 
         mockMvc.perform(MockMvcRequestBuilders
-                        .delete("/message/delete")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(removeMessageDto)))
+                        .delete("/message/delete/" + id)
+                        .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(MockMvcResultMatchers.status().isForbidden());
     }
 
     @Test
     @WithMockUser(username = "test@ss.com", authorities = "ROLE_USER")
     void removeMessage_SUCCESS() throws Exception {
-        RemoveMessageDto removeMessageDto = RemoveMessageDto.builder()
-                .messageId(1L)
-                .build();
+        final long id = 1L;
 
         mockMvc.perform(MockMvcRequestBuilders
-                        .delete("/message/delete")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(removeMessageDto)))
+                        .delete("/message/delete/" + id)
+                        .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(MockMvcResultMatchers.status().isNoContent());
     }
 

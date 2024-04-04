@@ -8,8 +8,6 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -30,14 +28,10 @@ public class MessagePattern {
     private long id;
 
     @Column(name = "title")
-    @NotBlank
-    @NotNull
     @Size(max = 100)
     private String title;
 
     @Column(name = "message")
-    @NotBlank
-    @NotNull
     @Size(max = 10000)
     private String message;
 
