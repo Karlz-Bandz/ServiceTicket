@@ -1,7 +1,7 @@
 package com.ncr.serviceticket.configuration.security;
 
 import com.ncr.serviceticket.model.Operator;
-import com.ncr.serviceticket.model.Role;
+import com.ncr.serviceticket.model.AuthorizationPosition;
 import com.ncr.serviceticket.repo.OperatorRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -60,7 +60,7 @@ public class AuthBean {
         };
     }
 
-    private Collection<SimpleGrantedAuthority> mapRolesToAuthority(List<Role> roles) {
+    private Collection<SimpleGrantedAuthority> mapRolesToAuthority(List<AuthorizationPosition> roles) {
         return roles.stream()
                 .map(x -> new SimpleGrantedAuthority(x.getRole()))
                 .toList();

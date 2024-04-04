@@ -5,7 +5,7 @@ import com.ncr.serviceticket.dto.OperatorDto;
 import com.ncr.serviceticket.exception.atm.AtmDuplicationException;
 import com.ncr.serviceticket.exception.atm.AtmNotFoundException;
 import com.ncr.serviceticket.model.Operator;
-import com.ncr.serviceticket.model.Role;
+import com.ncr.serviceticket.model.AuthorizationPosition;
 import com.ncr.serviceticket.repo.OperatorRepository;
 import com.ncr.serviceticket.repo.RoleRepository;
 import com.ncr.serviceticket.service.OperatorService;
@@ -37,7 +37,7 @@ public class OperatorServiceImpl implements OperatorService {
     @Override
     @Transactional
     public void registerOperator(OperatorDto operatorDto) {
-        Role roles = roleRepository.findByRole("ROLE_USER")
+        AuthorizationPosition roles = roleRepository.findByRole("ROLE_USER")
                 .orElseThrow(() -> new RuntimeException("USER role not found!"));
 
         if (operatorRepository.existsByName(operatorDto.getName())) {
@@ -61,7 +61,7 @@ public class OperatorServiceImpl implements OperatorService {
     @Override
     @Transactional
     public void registerAdmin(OperatorDto operatorDto) {
-        Role roles = roleRepository.findByRole("ROLE_ADMIN")
+        AuthorizationPosition roles = roleRepository.findByRole("ROLE_ADMIN")
                 .orElseThrow(() -> new RuntimeException("ADMIN role not found!"));
 
         if (operatorRepository.existsByName(operatorDto.getName())) {

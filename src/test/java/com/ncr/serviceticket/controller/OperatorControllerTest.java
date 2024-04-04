@@ -1,50 +1,40 @@
 package com.ncr.serviceticket.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.ncr.serviceticket.controller.impl.OperatorControllerImpl;
 import com.ncr.serviceticket.dto.OperatorDto;
-import com.ncr.serviceticket.model.Role;
+import com.ncr.serviceticket.model.AuthorizationPosition;
 import com.ncr.serviceticket.repo.RoleRepository;
 import com.ncr.serviceticket.service.OperatorService;
-import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
+import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 @SpringBootTest
 @AutoConfigureMockMvc
+@DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
 class OperatorControllerTest {
-
-    @Mock
-    private OperatorService operatorService;
-
-    @Mock
-    private RoleRepository roleRepository;
-
-    @InjectMocks
-    private OperatorControllerImpl operatorController;
 
     @Autowired
     private MockMvc mockMvc;
 
     private static final ObjectMapper objectMapper = new ObjectMapper();
 
-    @BeforeAll
-    static void setUp(@Autowired OperatorService operatorService, @Autowired RoleRepository roleRepository) {
+    @BeforeEach
+    void setUp(@Autowired OperatorService operatorService, @Autowired RoleRepository roleRepository) {
 
-        Role roleAdmin = Role.builder()
+        AuthorizationPosition roleAdmin = AuthorizationPosition.builder()
                 .role("ROLE_ADMIN")
                 .build();
 
-        Role roleUser = Role.builder()
+        AuthorizationPosition roleUser = AuthorizationPosition.builder()
                 .role("ROLE_USER")
                 .build();
 

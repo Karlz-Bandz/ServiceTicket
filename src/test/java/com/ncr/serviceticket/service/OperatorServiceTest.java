@@ -4,7 +4,7 @@ import com.ncr.serviceticket.dto.CheckOperatorDto;
 import com.ncr.serviceticket.dto.OperatorDto;
 import com.ncr.serviceticket.exception.atm.AtmNotFoundException;
 import com.ncr.serviceticket.model.Operator;
-import com.ncr.serviceticket.model.Role;
+import com.ncr.serviceticket.model.AuthorizationPosition;
 import com.ncr.serviceticket.repo.OperatorRepository;
 import com.ncr.serviceticket.repo.RoleRepository;
 import com.ncr.serviceticket.service.impl.OperatorServiceImpl;
@@ -40,9 +40,47 @@ class OperatorServiceTest {
     @InjectMocks
     private OperatorServiceImpl operatorService;
 
+
+    @Test
+    void findByEmailTest_SUCCESS() {
+        final String mockEmail = "john@kk.com";
+
+        AuthorizationPosition role = AuthorizationPosition.builder()
+                .role("ROLE_USER")
+                .build();
+
+        Operator mockOperator = Operator.builder()
+                .name("Test")
+                .role("TestRole")
+                .phone("555666444")
+                .roles(Collections.singletonList(role))
+                .email("karol@ss.pl")
+                .password("xxxx")
+                .build();
+
+        when(operatorRepository.findByEmail(mockEmail))
+                .thenReturn(Optional.ofNullable(mockOperator));
+
+        Operator result = operatorService.findByEmail(mockEmail)
+                .orElseThrow(() -> new AtmNotFoundException("Operator not found!"));
+
+        assertEquals(result, mockOperator);
+    }
+
+    @Test
+    void operatorExistsByEmailTest_SUCCESS() {
+        final String mockEmail = "john@kk.com";
+
+        when(operatorRepository.existsByEmail(mockEmail))
+                .thenReturn(true);
+
+        boolean result = operatorService.operatorExistsByEmail(mockEmail);
+
+        assertTrue(result);
+    }
+
     @Test
     void operatorExistsByNameTest_SUCCESS() {
-
         final String mockName = "John";
 
         when(operatorRepository.existsByName(mockName))
@@ -64,7 +102,7 @@ class OperatorServiceTest {
 
     @Test
     void deleteOperatorByIdTest_SUCCESS() {
-        Role role = Role.builder()
+        AuthorizationPosition role = AuthorizationPosition.builder()
                 .role("ROLE_USER")
                 .build();
 
@@ -81,12 +119,13 @@ class OperatorServiceTest {
 
         operatorService.deleteOperatorById(1L);
 
+        assert mockOperator != null;
         verify(operatorRepository).delete(mockOperator);
     }
 
     @Test
     void registerUserTest_SUCCESS() {
-        Role role = Role.builder()
+        AuthorizationPosition role = AuthorizationPosition.builder()
                 .role("ROLE_USER")
                 .build();
 
@@ -120,7 +159,7 @@ class OperatorServiceTest {
 
     @Test
     void registerAdminTest_SUCCESS() {
-        Role role = Role.builder()
+        AuthorizationPosition role = AuthorizationPosition.builder()
                 .role("ROLE_ADMIN")
                 .build();
 
@@ -154,7 +193,6 @@ class OperatorServiceTest {
 
     @Test
     void getCheckListTest() {
-
         CheckOperatorDto checkOperatorDto1 = CheckOperatorDto.builder()
                 .id(1L)
                 .name("TestName1")
