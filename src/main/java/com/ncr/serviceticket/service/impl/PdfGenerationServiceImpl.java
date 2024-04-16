@@ -10,6 +10,7 @@ import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
 import com.itextpdf.text.FontFactory;
 import com.ncr.serviceticket.dto.MasterTicketDto;
+import com.ncr.serviceticket.exception.atm.AtmNotFoundException;
 import com.ncr.serviceticket.model.Atm;
 import com.ncr.serviceticket.model.Operator;
 import com.ncr.serviceticket.service.AtmService;
@@ -23,6 +24,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.File;
 import java.nio.file.Files;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 @Service
 @RequiredArgsConstructor
@@ -37,12 +40,15 @@ public class PdfGenerationServiceImpl implements PdfGenerationService {
 
         Atm atm = atmService.findAtmById(masterTicketDto.getAtmId());
         Operator operator = operatorService.findByEmail(masterTicketDto.getEmail())
-                .orElseThrow(() -> new RuntimeException("Operator not found"));
+                .orElseThrow(() -> new AtmNotFoundException("Operator not found"));
 
-        final String fontPath = "/fonts/OpenSans_Condensed-Light.ttf";
+        final Date currentDate = new Date();
+        final SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+
+        final String fontPath = "static/fonts/Aller_Lt.ttf";
         final String fontEncoding = "Cp1250";
-        String home = System.getProperty("user.home");
-        File file = new File(home + "\\Downloads\\Zlecenie serwisowe " + atm.getAtmId() +".pdf");
+        final String home = System.getProperty("user.home");
+        File file = new File(home + "/Downloads/Zlecenie serwisowe " + atm.getAtmId() +".pdf");
 
         try {
             Document document = new Document(PageSize.A4);
@@ -96,7 +102,7 @@ public class PdfGenerationServiceImpl implements PdfGenerationService {
             addRow(table3, "Typ urządzenia:", atm.getType());
             addRow(table3, "Lokalizacja", atm.getLocation());
             addRow(table3, "Kontakt telefoniczny w miejscu awarii:", atm.getPhone());
-            addRow(table3, "Data i godzina wystąpienia awarii:", "2022-12-23");
+            addRow(table3, "Data i godzina wystąpienia awarii:", simpleDateFormat.format(currentDate));
 
             document.add(paragraphTitle);
             document.add(paragraphSubTitle1);
@@ -119,10 +125,12 @@ public class PdfGenerationServiceImpl implements PdfGenerationService {
     }
 
     private void addRow(PdfPTable table, String key, String value) {
-        Font font = FontFactory.getFont("/fonts/OpenSans_Condensed-Light.ttf", "Cp1250", true);
+        Font font = FontFactory.getFont("static/fonts/Aller_Lt.ttf", "Cp1250", true);
         font.setSize(13);
+
         Paragraph paragraphKey = new Paragraph(key, font);
         Paragraph paragraphValue = new Paragraph(value, font);
+
         table.addCell(paragraphKey);
         table.addCell(paragraphValue);
     }
