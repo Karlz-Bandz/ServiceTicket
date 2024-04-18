@@ -1,7 +1,7 @@
 package com.ncr.serviceticket.controller.impl;
 
 import com.ncr.serviceticket.controller.ForumController;
-import com.ncr.serviceticket.dto.AddForumMessageDto;
+import com.ncr.serviceticket.dto.ForumMessageDto;
 import com.ncr.serviceticket.model.ForumMessage;
 import com.ncr.serviceticket.service.ForumMessageService;
 import lombok.RequiredArgsConstructor;
@@ -20,11 +20,11 @@ public class ForumControllerImpl implements ForumController {
     private final ForumMessageService forumMessageService;
 
     @Override
-    public ResponseEntity<Void> addForumMessage(AddForumMessageDto addForumMessageDto, Authentication authentication) {
+    public ResponseEntity<Void> addForumMessage(ForumMessageDto addForumMessageDto, Authentication authentication) {
         final UserDetails userDetails = (UserDetails) authentication.getPrincipal();
         final String authEmail = userDetails.getUsername();
 
-        if(authEmail.equals(addForumMessageDto.getEmail())) {
+        if(authEmail.equals(addForumMessageDto.email())) {
             forumMessageService.addForumMessage(addForumMessageDto);
             return new ResponseEntity<>(HttpStatus.CREATED);
         }else {

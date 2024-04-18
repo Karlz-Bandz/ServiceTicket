@@ -1,6 +1,6 @@
 package com.ncr.serviceticket.service;
 
-import com.ncr.serviceticket.dto.AddForumMessageDto;
+import com.ncr.serviceticket.dto.ForumMessageDto;
 import com.ncr.serviceticket.model.AuthorizationPosition;
 import com.ncr.serviceticket.model.ForumMessage;
 import com.ncr.serviceticket.model.MessagePattern;
@@ -147,18 +147,18 @@ class ForumServiceTest {
                 .password("xxxx")
                 .build();
 
-        final AddForumMessageDto addChatMessageDto = AddForumMessageDto.builder()
+        final ForumMessageDto addChatMessageDto = ForumMessageDto.builder()
                 .message("TestChat1")
                 .email("karol@ss.pl")
                 .build();
 
         final ForumMessage chatMessage = ForumMessage.builder()
-                .message(addChatMessageDto.getMessage())
+                .message(addChatMessageDto.message())
                 .forumOperator(mockOperator)
                 .date(simpleDateFormat.format(currentDate))
                 .build();
 
-        when(operatorRepository.findByEmail(addChatMessageDto.getEmail()))
+        when(operatorRepository.findByEmail(addChatMessageDto.email()))
                 .thenReturn(Optional.ofNullable(mockOperator));
 
         when(chatMessageRepository.save(chatMessage)).thenReturn(chatMessage);

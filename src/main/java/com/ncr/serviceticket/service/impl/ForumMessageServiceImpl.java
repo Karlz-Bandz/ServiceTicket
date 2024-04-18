@@ -1,6 +1,6 @@
 package com.ncr.serviceticket.service.impl;
 
-import com.ncr.serviceticket.dto.AddForumMessageDto;
+import com.ncr.serviceticket.dto.ForumMessageDto;
 import com.ncr.serviceticket.exception.atm.AtmNotFoundException;
 import com.ncr.serviceticket.model.ForumMessage;
 import com.ncr.serviceticket.model.Operator;
@@ -24,15 +24,15 @@ public class ForumMessageServiceImpl implements ForumMessageService {
     private final ForumMessageRepository forumMessageRepository;
 
     @Override
-    public void addForumMessage(AddForumMessageDto addChatMessageDto) {
+    public void addForumMessage(ForumMessageDto addChatMessageDto) {
         final Date currentDate = new Date();
         final SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
 
-        final Operator operator = operatorRepository.findByEmail(addChatMessageDto.getEmail())
+        final Operator operator = operatorRepository.findByEmail(addChatMessageDto.email())
                 .orElseThrow(() -> new AtmNotFoundException("Operator with provided email doesn't exist!"));
 
         final ForumMessage chatMessage = ForumMessage.builder()
-                .message(addChatMessageDto.getMessage())
+                .message(addChatMessageDto.message())
                 .date(simpleDateFormat.format(currentDate))
                 .forumOperator(operator)
                 .build();

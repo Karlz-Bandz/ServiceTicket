@@ -1,6 +1,5 @@
 package com.ncr.serviceticket.service;
 
-import com.ncr.serviceticket.dto.CheckOperatorDto;
 import com.ncr.serviceticket.dto.OperatorDto;
 import com.ncr.serviceticket.model.Operator;
 
@@ -21,5 +20,5 @@ public interface OperatorService {
 
     void deleteOperatorById(long id);
 
-    List<CheckOperatorDto> getCheckList();
+    List<OperatorDto> getCheckList();
 }

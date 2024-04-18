@@ -1,7 +1,7 @@
 package com.ncr.serviceticket.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.ncr.serviceticket.dto.AddForumMessageDto;
+import com.ncr.serviceticket.dto.ForumMessageDto;
 import com.ncr.serviceticket.dto.OperatorDto;
 import com.ncr.serviceticket.model.AuthorizationPosition;
 import com.ncr.serviceticket.repo.RoleRepository;
@@ -60,7 +60,7 @@ class ForumControllerTest {
         operatorService.registerOperator(operatorDto1);
         operatorService.registerAdmin(operatorDto2);
 
-        final AddForumMessageDto addForumMessageDto = AddForumMessageDto.builder()
+        final ForumMessageDto addForumMessageDto = ForumMessageDto.builder()
                 .message("Testchat1")
                 .email("test@ss.com")
                 .build();
@@ -89,7 +89,7 @@ class ForumControllerTest {
     @Test
     @WithMockUser(username = "test@ss.com", authorities = "ROLE_USER")
     void addMessageTest_FORBBIDEN() throws Exception {
-        final AddForumMessageDto addForumMessageDto = AddForumMessageDto.builder()
+        final ForumMessageDto addForumMessageDto = ForumMessageDto.builder()
                 .message("Testchat1")
                 .email("test2@ss.com")
                 .build();
@@ -104,7 +104,7 @@ class ForumControllerTest {
     @Test
     @WithMockUser(username = "test@ss.com", authorities = "ROLE_USER")
     void addMessageTest_SUCCESS() throws Exception {
-        final AddForumMessageDto addForumMessageDto = AddForumMessageDto.builder()
+        final ForumMessageDto addForumMessageDto = ForumMessageDto.builder()
                 .message("Testchat1")
                 .email("test@ss.com")
                 .build();

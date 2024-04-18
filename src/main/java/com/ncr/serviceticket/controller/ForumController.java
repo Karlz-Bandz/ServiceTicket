@@ -1,6 +1,6 @@
 package com.ncr.serviceticket.controller;
 
-import com.ncr.serviceticket.dto.AddForumMessageDto;
+import com.ncr.serviceticket.dto.ForumMessageDto;
 import com.ncr.serviceticket.model.ForumMessage;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -17,7 +17,7 @@ import java.util.List;
 public interface ForumController {
 
     @PostMapping("/add")
-    ResponseEntity<Void> addForumMessage(@RequestBody AddForumMessageDto addForumMessageDto, Authentication authentication);
+    ResponseEntity<Void> addForumMessage(@RequestBody ForumMessageDto addForumMessageDto, Authentication authentication);
 
     @DeleteMapping("/delete/{id}")
     ResponseEntity<Void> deleteForumMessageById(@PathVariable("id") long id);

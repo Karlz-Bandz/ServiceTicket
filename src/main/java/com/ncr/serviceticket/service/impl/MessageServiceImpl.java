@@ -1,6 +1,6 @@
 package com.ncr.serviceticket.service.impl;
 
-import com.ncr.serviceticket.dto.CheckMessageDto;
+import com.ncr.serviceticket.dto.MessageDto;
 import com.ncr.serviceticket.exception.atm.AtmNotFoundException;
 import com.ncr.serviceticket.model.MessagePattern;
 import com.ncr.serviceticket.repo.MessagePatternRepository;
@@ -33,7 +33,7 @@ public class MessageServiceImpl implements MessageService {
     }
 
     @Override
-    public List<CheckMessageDto> getAllMessagesByEmail(String email) {
+    public List<MessageDto> getAllMessagesByEmail(String email) {
         return messagePatternRepository.findByOwnerUsername(email);
     }
 

@@ -38,8 +38,8 @@ public class PdfGenerationServiceImpl implements PdfGenerationService {
     @Override
     public byte[] generatePdf(MasterTicketDto masterTicketDto) throws IOException, DocumentException {
 
-        Atm atm = atmService.findAtmById(masterTicketDto.getAtmId());
-        Operator operator = operatorService.findByEmail(masterTicketDto.getEmail())
+        Atm atm = atmService.findAtmById(masterTicketDto.atmId());
+        Operator operator = operatorService.findByEmail(masterTicketDto.email())
                 .orElseThrow(() -> new AtmNotFoundException("Operator not found"));
 
         final Date currentDate = new Date();
@@ -72,9 +72,9 @@ public class PdfGenerationServiceImpl implements PdfGenerationService {
 
             Paragraph paragraphSubTitle4 = new Paragraph("Od Klienta:", fontSubTitle);
             Paragraph paragraphSubTitle5 = new Paragraph("Od WMC:", fontSubTitle);
-            Paragraph clientDescription = new Paragraph(masterTicketDto.getClientDescription(), fontSubTitle);
+            Paragraph clientDescription = new Paragraph(masterTicketDto.clientDescription(), fontSubTitle);
             clientDescription.setSpacingAfter(25);
-            Paragraph operatorDescription = new Paragraph(masterTicketDto.getOperatorDescription(), fontSubTitle);
+            Paragraph operatorDescription = new Paragraph(masterTicketDto.operatorDescription(), fontSubTitle);
             operatorDescription.setSpacingAfter(25);
 
             PdfPTable table1 = new PdfPTable(2);

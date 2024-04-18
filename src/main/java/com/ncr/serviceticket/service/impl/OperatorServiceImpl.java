@@ -1,6 +1,5 @@
 package com.ncr.serviceticket.service.impl;
 
-import com.ncr.serviceticket.dto.CheckOperatorDto;
 import com.ncr.serviceticket.dto.OperatorDto;
 import com.ncr.serviceticket.exception.atm.AtmDuplicationException;
 import com.ncr.serviceticket.exception.atm.AtmNotFoundException;
@@ -40,17 +39,17 @@ public class OperatorServiceImpl implements OperatorService {
         AuthorizationPosition roles = roleRepository.findByRole("ROLE_USER")
                 .orElseThrow(() -> new RuntimeException("USER role not found!"));
 
-        if (operatorRepository.existsByName(operatorDto.getName())) {
+        if (operatorRepository.existsByName(operatorDto.name())) {
             throw new AtmDuplicationException("UserName already exists!");
-        } else if (operatorRepository.existsByEmail(operatorDto.getEmail())) {
+        } else if (operatorRepository.existsByEmail(operatorDto.email())) {
             throw new AtmDuplicationException("Email already exists!");
         } else {
             Operator operator = Operator.builder()
-                    .name(operatorDto.getName())
-                    .role(operatorDto.getRole())
-                    .phone(operatorDto.getPhone())
-                    .email(operatorDto.getEmail())
-                    .password(passwordEncoder.encode(operatorDto.getPassword()))
+                    .name(operatorDto.name())
+                    .role(operatorDto.role())
+                    .phone(operatorDto.phone())
+                    .email(operatorDto.email())
+                    .password(passwordEncoder.encode(operatorDto.password()))
                     .roles(Collections.singletonList(roles))
                     .build();
 
@@ -64,17 +63,17 @@ public class OperatorServiceImpl implements OperatorService {
         AuthorizationPosition roles = roleRepository.findByRole("ROLE_ADMIN")
                 .orElseThrow(() -> new RuntimeException("ADMIN role not found!"));
 
-        if (operatorRepository.existsByName(operatorDto.getName())) {
+        if (operatorRepository.existsByName(operatorDto.name())) {
             throw new AtmDuplicationException("UserName already exists!");
-        } else if (operatorRepository.existsByEmail(operatorDto.getEmail())) {
+        } else if (operatorRepository.existsByEmail(operatorDto.email())) {
             throw new AtmDuplicationException("Email already exists!");
         } else {
             Operator operator = Operator.builder()
-                    .name(operatorDto.getName())
-                    .role(operatorDto.getRole())
-                    .phone(operatorDto.getPhone())
-                    .email(operatorDto.getEmail())
-                    .password(passwordEncoder.encode(operatorDto.getPassword()))
+                    .name(operatorDto.name())
+                    .role(operatorDto.role())
+                    .phone(operatorDto.phone())
+                    .email(operatorDto.email())
+                    .password(passwordEncoder.encode(operatorDto.password()))
                     .roles(Collections.singletonList(roles))
                     .build();
 
@@ -102,10 +101,10 @@ public class OperatorServiceImpl implements OperatorService {
     }
 
     @Override
-    public List<CheckOperatorDto> getCheckList() {
+    public List<OperatorDto> getCheckList() {
         return operatorRepository.getOperatorCheckList()
                 .stream()
-                .sorted(Comparator.comparing(CheckOperatorDto::getName))
+                .sorted(Comparator.comparing(OperatorDto::name))
                 .toList();
     }
 }

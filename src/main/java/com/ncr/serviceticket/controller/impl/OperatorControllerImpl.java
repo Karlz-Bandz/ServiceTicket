@@ -1,7 +1,6 @@
 package com.ncr.serviceticket.controller.impl;
 
 import com.ncr.serviceticket.controller.OperatorController;
-import com.ncr.serviceticket.dto.CheckOperatorDto;
 import com.ncr.serviceticket.dto.OperatorDto;
 import com.ncr.serviceticket.service.OperatorService;
 import lombok.RequiredArgsConstructor;
@@ -45,7 +44,7 @@ public class OperatorControllerImpl implements OperatorController {
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
     @Override
-    public ResponseEntity<List<CheckOperatorDto>> getOperatorCheckList() {
+    public ResponseEntity<List<OperatorDto>> getOperatorCheckList() {
         return ResponseEntity.ok(operatorService.getCheckList());
     }
 }
