@@ -3,7 +3,6 @@ package com.ncr.serviceticket.controller;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ncr.serviceticket.dto.AddMessageDto;
 import com.ncr.serviceticket.dto.OperatorDto;
-import com.ncr.serviceticket.dto.RemoveMessageDto;
 import com.ncr.serviceticket.exception.atm.AtmNotFoundException;
 import com.ncr.serviceticket.model.AuthorizationPosition;
 import com.ncr.serviceticket.model.MessagePattern;

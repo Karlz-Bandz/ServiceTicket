@@ -75,4 +75,7 @@ public class Operator {
 
     @OneToMany(mappedBy = "operator")
     private List<MessagePattern> messages = new ArrayList<>();
+
+    @OneToMany(mappedBy = "forumOperator")
+    private List<ForumMessage> forumMessages = new ArrayList<>();
 }
