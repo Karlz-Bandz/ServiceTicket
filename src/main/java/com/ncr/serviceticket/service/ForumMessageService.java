@@ -7,6 +7,8 @@ import java.util.List;
 
 public interface ForumMessageService {
 
+    ForumMessage findById(long id);
+
     void addForumMessage(ForumMessageDto addChatMessageDto);
 
     void deleteForumMessageById(long id);

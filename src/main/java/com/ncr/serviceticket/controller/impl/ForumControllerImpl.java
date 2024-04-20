@@ -33,9 +33,19 @@ public class ForumControllerImpl implements ForumController {
     }
 
     @Override
-    public ResponseEntity<Void> deleteForumMessageById(long id) {
-        forumMessageService.deleteForumMessageById(id);
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    public ResponseEntity<Void> deleteForumMessageById(long id, Authentication authentication) {
+        final UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+        final String authEmail = userDetails.getUsername();
+
+        final ForumMessage forumMessage = forumMessageService.findById(id);
+        final String forumMessageEmailIdentity = forumMessage.getForumOperator().getEmail();
+
+        if(forumMessageEmailIdentity.equals(authEmail)) {
+            forumMessageService.deleteForumMessageById(id);
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }else {
+            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+        }
     }
 
     @Override

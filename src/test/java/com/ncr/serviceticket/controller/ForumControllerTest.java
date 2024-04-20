@@ -78,6 +78,15 @@ class ForumControllerTest {
     }
 
     @Test
+    @WithMockUser(username = "test2@ss.com", authorities = "ROLE_USER")
+    void deleteForumMessageByIdTest_FORBIDDEN() throws Exception {
+        mockMvc.perform(MockMvcRequestBuilders
+                        .delete("/forum/delete/1")
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(MockMvcResultMatchers.status().isForbidden());
+    }
+
+    @Test
     @WithMockUser(username = "test@ss.com", authorities = "ROLE_USER")
     void deleteForumMessageByIdTest_SUCCESS() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders

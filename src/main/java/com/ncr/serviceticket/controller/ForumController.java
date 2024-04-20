@@ -20,7 +20,7 @@ public interface ForumController {
     ResponseEntity<Void> addForumMessage(@RequestBody ForumMessageDto addForumMessageDto, Authentication authentication);
 
     @DeleteMapping("/delete/{id}")
-    ResponseEntity<Void> deleteForumMessageById(@PathVariable("id") long id);
+    ResponseEntity<Void> deleteForumMessageById(@PathVariable("id") long id, Authentication authentication);
 
     @GetMapping("/all")
     ResponseEntity<List<ForumMessage>> getAllForumMessages();

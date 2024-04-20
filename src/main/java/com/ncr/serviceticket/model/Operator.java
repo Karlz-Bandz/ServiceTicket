@@ -1,5 +1,6 @@
 package com.ncr.serviceticket.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.ncr.serviceticket.validation.annotations.ContactNumberConstraint;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -66,16 +67,20 @@ public class Operator {
     @NotBlank
     @NotNull
     @Size(max = 200)
+    @JsonIgnore
     private String password;
 
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
     @JoinTable(name = "operator_roles", joinColumns = @JoinColumn(name = "operator_id", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"))
+    @JsonIgnore
     private List<AuthorizationPosition> roles = new ArrayList<>();
 
     @OneToMany(mappedBy = "operator")
+    @JsonIgnore
     private List<MessagePattern> messages = new ArrayList<>();
 
     @OneToMany(mappedBy = "forumOperator")
+    @JsonIgnore
     private List<ForumMessage> forumMessages = new ArrayList<>();
 }

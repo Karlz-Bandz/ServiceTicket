@@ -24,6 +24,12 @@ public class ForumMessageServiceImpl implements ForumMessageService {
     private final ForumMessageRepository forumMessageRepository;
 
     @Override
+    public ForumMessage findById(long id) {
+        return forumMessageRepository.findById(id)
+                .orElseThrow(() -> new AtmNotFoundException("Message not found!"));
+    }
+
+    @Override
     public void addForumMessage(ForumMessageDto addChatMessageDto) {
         final Date currentDate = new Date();
         final SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
