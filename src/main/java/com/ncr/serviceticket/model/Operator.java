@@ -76,11 +76,11 @@ public class Operator {
     @JsonIgnore
     private List<AuthorizationPosition> roles = new ArrayList<>();
 
-    @OneToMany(mappedBy = "operator")
+    @OneToMany(mappedBy = "operator", orphanRemoval = true)
     @JsonIgnore
     private List<MessagePattern> messages = new ArrayList<>();
 
-    @OneToMany(mappedBy = "forumOperator")
+    @OneToMany(mappedBy = "forumOperator", orphanRemoval = true)
     @JsonIgnore
     private List<ForumMessage> forumMessages = new ArrayList<>();
 }
