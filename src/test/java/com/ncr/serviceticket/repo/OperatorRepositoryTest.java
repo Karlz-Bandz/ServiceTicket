@@ -1,6 +1,6 @@
 package com.ncr.serviceticket.repo;
 
-import com.ncr.serviceticket.dto.CheckOperatorDto;
+import com.ncr.serviceticket.dto.OperatorDto;
 import com.ncr.serviceticket.model.Operator;
 import com.ncr.serviceticket.model.AuthorizationPosition;
 import jakarta.transaction.Transactional;
@@ -56,8 +56,8 @@ class OperatorRepositoryTest {
 
     @Test
     void getOperatorCheckListTest() {
-        List<CheckOperatorDto> result = operatorRepository.getOperatorCheckList();
+        List<OperatorDto> result = operatorRepository.getOperatorCheckList();
         assertEquals(2, result.size());
-        assertEquals("Iza Test", result.get(1).getName());
+        assertEquals("Iza Test", result.get(1).name());
     }
 }

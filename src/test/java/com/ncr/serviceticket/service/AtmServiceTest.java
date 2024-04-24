@@ -1,7 +1,6 @@
 package com.ncr.serviceticket.service;
 
 import com.ncr.serviceticket.dto.AtmDto;
-import com.ncr.serviceticket.dto.CheckAtmDto;
 import com.ncr.serviceticket.exception.atm.AtmDuplicationException;
 import com.ncr.serviceticket.exception.atm.AtmNotFoundException;
 import com.ncr.serviceticket.model.Atm;
@@ -156,7 +155,7 @@ class AtmServiceTest {
                 .location("Test Street 2343")
                 .build();
 
-        when(atmRepository.existsBySerialNo(atmDto.getSerialNo())).thenReturn(true);
+        when(atmRepository.existsBySerialNo(atmDto.serialNo())).thenReturn(true);
 
         assertThrows(AtmDuplicationException.class, () -> {
             atmService.addNewAtm(atmDto);
@@ -174,7 +173,7 @@ class AtmServiceTest {
                 .location("Test Street 2343")
                 .build();
 
-        when(atmRepository.existsByAtmId(atmDto.getAtmId())).thenReturn(true);
+        when(atmRepository.existsByAtmId(atmDto.atmId())).thenReturn(true);
 
         assertThrows(AtmDuplicationException.class, () -> {
             atmService.addNewAtm(atmDto);
@@ -210,19 +209,19 @@ class AtmServiceTest {
 
     @Test
     void getCheckListTest() {
-        CheckAtmDto checkAtmDto1 = CheckAtmDto.builder()
+        AtmDto checkAtmDto1 = AtmDto.builder()
                 .id(1)
                 .atmId("BBAA2211")
                 .build();
-        CheckAtmDto checkAtmDto2 = CheckAtmDto.builder()
+        AtmDto checkAtmDto2 = AtmDto.builder()
                 .id(2)
                 .atmId("BBDD2211")
                 .build();
-        List<CheckAtmDto> mockCheckList = List.of(checkAtmDto1, checkAtmDto2);
+        List<AtmDto> mockCheckList = List.of(checkAtmDto1, checkAtmDto2);
 
         when(atmRepository.getAtmCheckList()).thenReturn(mockCheckList);
 
-        List<CheckAtmDto> result = atmService.getCheckList();
+        List<AtmDto> result = atmService.getCheckList();
 
         assertEquals(mockCheckList, result);
     }

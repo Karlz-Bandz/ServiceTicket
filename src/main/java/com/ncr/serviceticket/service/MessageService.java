@@ -1,6 +1,6 @@
 package com.ncr.serviceticket.service;
 
-import com.ncr.serviceticket.dto.CheckMessageDto;
+import com.ncr.serviceticket.dto.MessageDto;
 import com.ncr.serviceticket.model.MessagePattern;
 
 import java.util.List;
@@ -11,7 +11,7 @@ public interface MessageService {
 
     void changeMessageById(MessagePattern messagePattern);
 
-    List<CheckMessageDto> getAllMessagesByEmail(String email);
+    List<MessageDto> getAllMessagesByEmail(String email);
 
     void addMessage(MessagePattern messagePattern);
 
