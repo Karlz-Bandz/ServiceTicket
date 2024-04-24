@@ -2,6 +2,7 @@ package com.ncr.serviceticket.controller.impl;
 
 import com.ncr.serviceticket.controller.AtmController;
 import com.ncr.serviceticket.dto.AtmDto;
+import com.ncr.serviceticket.dto.CheckAtmDto;
 import com.ncr.serviceticket.model.Atm;
 import com.ncr.serviceticket.service.AtmService;
 import lombok.RequiredArgsConstructor;
@@ -55,7 +56,7 @@ public class AtmControllerImpl implements AtmController {
     }
 
     @Override
-    public ResponseEntity<List<AtmDto>> getCheckList() {
+    public ResponseEntity<List<CheckAtmDto>> getCheckList() {
         return ResponseEntity.ok(atmService.getCheckList());
     }
 }

@@ -1,6 +1,6 @@
 package com.ncr.serviceticket.repo;
 
-import com.ncr.serviceticket.dto.AtmDto;
+import com.ncr.serviceticket.dto.CheckAtmDto;
 import com.ncr.serviceticket.model.Atm;
 import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.BeforeAll;
@@ -44,7 +44,7 @@ class AtmRepositoryTest {
 
     @Test
     void getAtmCheckListTest() {
-        List<AtmDto> result = atmRepository.getAtmCheckList();
+        List<CheckAtmDto> result = atmRepository.getAtmCheckList();
         assertEquals(2, result.size());
     }
 

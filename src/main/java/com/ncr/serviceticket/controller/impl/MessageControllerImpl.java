@@ -1,7 +1,8 @@
 package com.ncr.serviceticket.controller.impl;
 
 import com.ncr.serviceticket.controller.MessageController;
-import com.ncr.serviceticket.dto.MessageDto;
+import com.ncr.serviceticket.dto.AddMessageDto;
+import com.ncr.serviceticket.dto.CheckMessageDto;
 import com.ncr.serviceticket.exception.atm.AtmNotFoundException;
 import com.ncr.serviceticket.model.MessagePattern;
 import com.ncr.serviceticket.model.Operator;
@@ -25,18 +26,18 @@ public class MessageControllerImpl implements MessageController {
     private final MessageService messageService;
 
     @Override
-    public ResponseEntity<Void> changeMessageById(MessageDto messageDto, Authentication authentication) {
+    public ResponseEntity<Void> changeMessageById(AddMessageDto addMessageDto, Authentication authentication) {
         final UserDetails userDetails = (UserDetails) authentication.getPrincipal();
         final String authEmail = userDetails.getUsername();
 
         List<Long> messagesId = messageService.findEachIdByEmail(authEmail);
 
-        if (messagesId.contains(messageDto.id())) {
+        if (messagesId.contains(addMessageDto.getId())) {
 
             MessagePattern messagePattern = MessagePattern.builder()
-                    .id(messageDto.id())
-                    .message(messageDto.message())
-                    .title(messageDto.title())
+                    .id(addMessageDto.getId())
+                    .message(addMessageDto.getMessage())
+                    .title(addMessageDto.getTitle())
                     .build();
 
             messageService.changeMessageById(messagePattern);
@@ -48,7 +49,7 @@ public class MessageControllerImpl implements MessageController {
     }
 
     @Override
-    public ResponseEntity<List<MessageDto>> getAllMessages(String email, Authentication authentication) {
+    public ResponseEntity<List<CheckMessageDto>> getAllMessages(String email, Authentication authentication) {
         final UserDetails userDetails = (UserDetails) authentication.getPrincipal();
         final String authEmail = userDetails.getUsername();
 
@@ -60,18 +61,18 @@ public class MessageControllerImpl implements MessageController {
     }
 
     @Override
-    public ResponseEntity<Void> addMessage(MessageDto addMessageDto, Authentication authentication) {
+    public ResponseEntity<Void> addMessage(AddMessageDto addMessageDto, Authentication authentication) {
         final UserDetails userDetails = (UserDetails) authentication.getPrincipal();
         final String authEmail = userDetails.getUsername();
 
-        if (addMessageDto.email().equals(authEmail)) {
+        if (addMessageDto.getEmail().equals(authEmail)) {
 
-            final Operator operator = operatorService.findByEmail(addMessageDto.email())
+            final Operator operator = operatorService.findByEmail(addMessageDto.getEmail())
                     .orElseThrow(() -> new AtmNotFoundException("User not found!"));
 
             MessagePattern messagePattern = MessagePattern.builder()
-                    .title(addMessageDto.title())
-                    .message(addMessageDto.message())
+                    .title(addMessageDto.getTitle())
+                    .message(addMessageDto.getMessage())
                     .operator(operator)
                     .build();
 

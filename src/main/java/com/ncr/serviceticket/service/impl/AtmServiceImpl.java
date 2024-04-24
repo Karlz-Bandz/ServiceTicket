@@ -1,6 +1,7 @@
 package com.ncr.serviceticket.service.impl;
 
 import com.ncr.serviceticket.dto.AtmDto;
+import com.ncr.serviceticket.dto.CheckAtmDto;
 import com.ncr.serviceticket.exception.atm.AtmDuplicationException;
 import com.ncr.serviceticket.exception.atm.AtmNotFoundException;
 import com.ncr.serviceticket.model.Atm;
@@ -63,18 +64,18 @@ public class AtmServiceImpl implements AtmService {
     @Transactional
     public void addNewAtm(AtmDto atmDto) {
 
-        if (atmRepository.existsByAtmId(atmDto.atmId())) {
+        if (atmRepository.existsByAtmId(atmDto.getAtmId())) {
             throw new AtmDuplicationException("AtmId already exists!");
-        } else if (atmRepository.existsBySerialNo(atmDto.serialNo())) {
+        } else if (atmRepository.existsBySerialNo(atmDto.getSerialNo())) {
             throw new AtmDuplicationException("Serial No. already exists!");
         } else {
             Atm atm = Atm.builder()
-                    .atmId(atmDto.atmId())
-                    .clientName(atmDto.clientName())
-                    .serialNo(atmDto.serialNo())
-                    .type(atmDto.type())
-                    .phone(atmDto.phone())
-                    .location(atmDto.location())
+                    .atmId(atmDto.getAtmId())
+                    .clientName(atmDto.getClientName())
+                    .serialNo(atmDto.getSerialNo())
+                    .type(atmDto.getType())
+                    .phone(atmDto.getPhone())
+                    .location(atmDto.getLocation())
                     .build();
 
             atmRepository.save(atm);
@@ -89,10 +90,10 @@ public class AtmServiceImpl implements AtmService {
     }
 
     @Override
-    public List<AtmDto> getCheckList() {
+    public List<CheckAtmDto> getCheckList() {
         return atmRepository.getAtmCheckList()
                 .stream()
-                .sorted(Comparator.comparing(AtmDto::atmId))
+                .sorted(Comparator.comparing(CheckAtmDto::getAtmId))
                 .toList();
     }
 }

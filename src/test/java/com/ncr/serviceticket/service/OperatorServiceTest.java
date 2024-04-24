@@ -1,5 +1,6 @@
 package com.ncr.serviceticket.service;
 
+import com.ncr.serviceticket.dto.CheckOperatorDto;
 import com.ncr.serviceticket.dto.OperatorDto;
 import com.ncr.serviceticket.exception.atm.AtmNotFoundException;
 import com.ncr.serviceticket.model.Operator;
@@ -147,7 +148,7 @@ class OperatorServiceTest {
 
         when(roleRepository.findByRole(role.getRole())).thenReturn(Optional.of(role));
 
-        when(passwordEncoder.encode(operatorDto.password())).thenReturn("xxxx");
+        when(passwordEncoder.encode(operatorDto.getPassword())).thenReturn("xxxx");
 
         when(operatorRepository.save(mockOperator)).thenReturn(mockOperator);
 
@@ -181,7 +182,7 @@ class OperatorServiceTest {
 
         when(roleRepository.findByRole(role.getRole())).thenReturn(Optional.of(role));
 
-        when(passwordEncoder.encode(operatorDto.password())).thenReturn("xxxx");
+        when(passwordEncoder.encode(operatorDto.getPassword())).thenReturn("xxxx");
 
         when(operatorRepository.save(mockOperator)).thenReturn(mockOperator);
 
@@ -192,20 +193,20 @@ class OperatorServiceTest {
 
     @Test
     void getCheckListTest() {
-        OperatorDto checkOperatorDto1 = OperatorDto.builder()
+        CheckOperatorDto checkOperatorDto1 = CheckOperatorDto.builder()
                 .id(1L)
                 .name("TestName1")
                 .build();
-        OperatorDto checkOperatorDto2 = OperatorDto.builder()
+        CheckOperatorDto checkOperatorDto2 = CheckOperatorDto.builder()
                 .id(2L)
                 .name("TestName2")
                 .build();
 
-        List<OperatorDto> mockCheckList = List.of(checkOperatorDto1, checkOperatorDto2);
+        List<CheckOperatorDto> mockCheckList = List.of(checkOperatorDto1, checkOperatorDto2);
 
         when(operatorRepository.getOperatorCheckList()).thenReturn(mockCheckList);
 
-        List<OperatorDto> result = operatorService.getCheckList();
+        List<CheckOperatorDto> result = operatorService.getCheckList();
 
         assertEquals(mockCheckList, result);
     }

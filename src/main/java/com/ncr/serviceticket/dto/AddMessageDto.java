@@ -5,7 +5,9 @@ import lombok.Data;
 
 @Data
 @Builder
-public class AuthenticationDto {
+public class AddMessageDto {
+    private long id;
     private String email;
-    private String password;
+    private String title;
+    private String message;
 }

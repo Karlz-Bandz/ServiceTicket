@@ -5,7 +5,7 @@ import lombok.Data;
 
 @Data
 @Builder
-public class AuthenticationDto {
+public class RemoveMessageDto {
     private String email;
-    private String password;
+    private long messageId;
 }

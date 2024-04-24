@@ -1,8 +1,9 @@
 package com.ncr.serviceticket.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.ncr.serviceticket.dto.MessageDto;
+import com.ncr.serviceticket.dto.AddMessageDto;
 import com.ncr.serviceticket.dto.OperatorDto;
+import com.ncr.serviceticket.dto.RemoveMessageDto;
 import com.ncr.serviceticket.exception.atm.AtmNotFoundException;
 import com.ncr.serviceticket.model.AuthorizationPosition;
 import com.ncr.serviceticket.model.MessagePattern;
@@ -21,6 +22,9 @@ import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -45,6 +49,14 @@ class MessageControllerTest {
         roleRepository.save(roleAdmin);
         roleRepository.save(roleUser);
 
+        List<MessagePattern> messages = new ArrayList<>();
+
+        AddMessageDto addMessageDto = AddMessageDto.builder()
+                .email("user@ss.com")
+                .message("test")
+                .title("titleTest")
+                .build();
+
         OperatorDto operatorDto1 = OperatorDto.builder()
                 .name("TestOperator1")
                 .phone("555666333")
@@ -63,7 +75,7 @@ class MessageControllerTest {
         operatorService.registerOperator(operatorDto1);
         operatorService.registerAdmin(operatorDto2);
 
-        Operator mockOperator = operatorService.findByEmail(operatorDto2.email())
+        Operator mockOperator = operatorService.findByEmail(operatorDto2.getEmail())
                 .orElseThrow(() -> new AtmNotFoundException("User not found!"));
 
         MessagePattern messagePattern = MessagePattern.builder()
@@ -78,7 +90,7 @@ class MessageControllerTest {
     @Test
     @WithMockUser(username = "user@ss.com", authorities = "ROLE_USER")
     void changeMessageByIdTest_FORBIDDEN() throws Exception {
-        MessageDto addMessageDto = MessageDto.builder()
+        AddMessageDto addMessageDto = AddMessageDto.builder()
                 .id(1L)
                 .message("New")
                 .title("newTitle")
@@ -94,7 +106,7 @@ class MessageControllerTest {
     @Test
     @WithMockUser(username = "test@ss.com", authorities = "ROLE_USER")
     void changeMessageByIdTest_SUCCESS() throws Exception {
-        MessageDto addMessageDto = MessageDto.builder()
+        AddMessageDto addMessageDto = AddMessageDto.builder()
                 .id(1L)
                 .message("New")
                 .title("newTitle")
@@ -150,7 +162,7 @@ class MessageControllerTest {
     @Test
     @WithMockUser(username = "user@ss.com", authorities = "ROLE_USER")
     void addMessage_FORBIDDEN() throws Exception {
-        MessageDto addMessageDto = MessageDto.builder()
+        AddMessageDto addMessageDto = AddMessageDto.builder()
                 .email("another@ss.com")
                 .title("TitleTest")
                 .message("MessageTest")
@@ -166,7 +178,7 @@ class MessageControllerTest {
     @Test
     @WithMockUser(username = "user@ss.com", authorities = "ROLE_USER")
     void addMessage_SUCCESS() throws Exception {
-        MessageDto addMessageDto = MessageDto.builder()
+        AddMessageDto addMessageDto = AddMessageDto.builder()
                 .email("user@ss.com")
                 .title("TitleTest")
                 .message("MessageTest")

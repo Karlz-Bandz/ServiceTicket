@@ -3,44 +3,40 @@ package com.ncr.serviceticket.dto;
 import com.ncr.serviceticket.validation.annotations.ContactNumberConstraint;
 import com.ncr.serviceticket.validation.annotations.UpperCaseConstraint;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Builder;
+import lombok.Data;
 
+@Data
 @Builder
-public record AtmDto(
+public class AtmDto {
 
-        @NotNull
-        long id,
+    private long id;
 
-        @NotBlank
-        @Size(min = 8, max = 10)
-        @UpperCaseConstraint
-        String atmId,
+    @NotBlank
+    @Size(min = 8, max = 10)
+    @UpperCaseConstraint
+    private String atmId;
 
-        @NotBlank
-        @Size(min = 8, max = 20)
-        String serialNo,
+    @NotBlank
+    @Size(min = 8, max = 20)
+    private String serialNo;
 
-        @NotBlank
-        @Size(max = 20)
-        @UpperCaseConstraint
-        String type,
+    @NotBlank
+    @Size(max = 20)
+    @UpperCaseConstraint
+    private String type;
 
-        @NotBlank
-        @Size(max = 120)
-        String clientName,
+    @NotBlank
+    @Size(max = 120)
+    private String clientName;
 
-        @NotBlank
-        @Size(max = 50)
-        String location,
+    @NotBlank
+    @Size(max = 50)
+    private String location;
 
-        @NotBlank
-        @Size(max = 20)
-        @ContactNumberConstraint
-        String phone
-) {
-        public AtmDto(long id, String atmId){
-                this(id, atmId, null, null, null, null, null);
-        }
+    @NotBlank
+    @Size(max = 20)
+    @ContactNumberConstraint
+    private String phone;
 }

@@ -1,6 +1,6 @@
 package com.ncr.serviceticket.service;
 
-import com.ncr.serviceticket.dto.MessageDto;
+import com.ncr.serviceticket.dto.CheckMessageDto;
 import com.ncr.serviceticket.model.AuthorizationPosition;
 import com.ncr.serviceticket.model.MessagePattern;
 import com.ncr.serviceticket.model.Operator;
@@ -95,30 +95,30 @@ class MessageServiceTest {
     void getAllMessagesByEmailTest_SUCCESS() {
         final String userEmail = "john@ss.com";
 
-        MessageDto checkMessageDto1 = MessageDto.builder()
+        CheckMessageDto checkMessageDto1 = CheckMessageDto.builder()
                 .id(1L)
                 .message("Message1")
                 .title("Title1")
                 .build();
-        MessageDto checkMessageDto2 = MessageDto.builder()
+        CheckMessageDto checkMessageDto2 = CheckMessageDto.builder()
                 .id(2L)
                 .message("Message2")
                 .title("Title2")
                 .build();
-        MessageDto checkMessageDto3 = MessageDto.builder()
+        CheckMessageDto checkMessageDto3 = CheckMessageDto.builder()
                 .id(3L)
                 .message("Message3")
                 .title("Title3")
                 .build();
 
-        List<MessageDto> mockCheckMessages = Arrays.asList(
+        List<CheckMessageDto> mockCheckMessages = Arrays.asList(
                 checkMessageDto1,
                 checkMessageDto2,
                 checkMessageDto3);
 
         when(messagePatternRepository.findByOwnerUsername(userEmail)).thenReturn(mockCheckMessages);
 
-        List<MessageDto> result = messageService.getAllMessagesByEmail(userEmail);
+        List<CheckMessageDto> result = messageService.getAllMessagesByEmail(userEmail);
 
         assertEquals(result, mockCheckMessages);
     }

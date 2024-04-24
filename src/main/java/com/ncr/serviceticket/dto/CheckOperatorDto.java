@@ -5,7 +5,7 @@ import lombok.Data;
 
 @Data
 @Builder
-public class AuthenticationDto {
-    private String email;
-    private String password;
+public class CheckOperatorDto {
+    private long id;
+    private String name;
 }

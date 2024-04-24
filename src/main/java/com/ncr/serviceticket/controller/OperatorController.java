@@ -1,5 +1,6 @@
 package com.ncr.serviceticket.controller;
 
+import com.ncr.serviceticket.dto.CheckOperatorDto;
 import com.ncr.serviceticket.dto.OperatorDto;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
@@ -26,5 +27,5 @@ public interface OperatorController {
     ResponseEntity<Void> deleteOperatorById(@PathVariable("id") long id);
 
     @GetMapping("/checklist")
-    ResponseEntity<List<OperatorDto>> getOperatorCheckList();
+    ResponseEntity<List<CheckOperatorDto>> getOperatorCheckList();
 }

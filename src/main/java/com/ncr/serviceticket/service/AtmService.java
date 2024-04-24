@@ -1,6 +1,7 @@
 package com.ncr.serviceticket.service;
 
 import com.ncr.serviceticket.dto.AtmDto;
+import com.ncr.serviceticket.dto.CheckAtmDto;
 import com.ncr.serviceticket.model.Atm;
 
 import java.util.List;
@@ -21,5 +22,5 @@ public interface AtmService {
 
     Atm findAtmById(long id);
 
-    List<AtmDto> getCheckList();
+    List<CheckAtmDto> getCheckList();
 }
