@@ -26,7 +26,7 @@ public class SecurityConfig {
         http
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(authorize -> authorize
-                        .requestMatchers( "/auth/**").permitAll()
+                        .requestMatchers( "/auth/**", "/ftp/**").permitAll()
                         .requestMatchers( "/operator/**", "/atm/add", "/atm/delete/**").hasRole("ADMIN")
                         .anyRequest().authenticated()
                 )
