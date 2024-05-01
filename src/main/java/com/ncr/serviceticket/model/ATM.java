@@ -1,5 +1,6 @@
 package com.ncr.serviceticket.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.ncr.serviceticket.validation.annotations.ContactNumberConstraint;
 import com.ncr.serviceticket.validation.annotations.UpperCaseConstraint;
 import jakarta.persistence.*;
@@ -63,4 +64,8 @@ public class Atm {
     @Size(max = 20)
     @ContactNumberConstraint
     private String phone;
+
+    @OneToOne(mappedBy = "atm", orphanRemoval = true)
+    @JsonIgnore
+    private SftpAtm sftpAtm;
 }

@@ -6,8 +6,8 @@ import com.jcraft.jsch.JSch;
 import com.jcraft.jsch.JSchException;
 import com.jcraft.jsch.Session;
 import com.jcraft.jsch.SftpException;
-import com.ncr.serviceticket.dto.FtpDto;
-import com.ncr.serviceticket.service.FtpService;
+import com.ncr.serviceticket.dto.SftpDto;
+import com.ncr.serviceticket.service.SftpService;
 import org.springframework.stereotype.Service;
 
 import java.io.File;
@@ -17,18 +17,18 @@ import java.io.InputStream;
 import java.util.logging.Logger;
 
 @Service
-public class FtpServiceImpl implements FtpService {
+public class SftpServiceImpl implements SftpService {
 
     private Session session;
 
     private ChannelSftp channelSftp;
 
-    private final Logger logger = Logger.getLogger(FtpServiceImpl.class.getName());
+    private final Logger logger = Logger.getLogger(SftpServiceImpl.class.getName());
 
     private final String home = System.getProperty("user.home");
 
     @Override
-    public void restart(String system) throws IOException, SftpException {
+    public void restart(String system) throws SftpException {
 
         if (session != null && channelSftp != null) {
             final File destList = new File(home + "/update/xp/restart/destlist.txt");
@@ -49,7 +49,7 @@ public class FtpServiceImpl implements FtpService {
     }
 
     @Override
-    public void connect(FtpDto ftpDto) throws IOException, JSchException {
+    public void connect(SftpDto ftpDto) throws JSchException {
         final String known_hosts = home + "/.ssh/known_hosts";
 
         final JSch jSch = new JSch();
